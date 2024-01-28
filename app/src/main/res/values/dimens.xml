@@ -1,11 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <dimen name="medium_padding">16dp</dimen>
-    <dimen name="text_size">22sp</dimen>
+    <dimen name="text_size_22">22sp</dimen>
     <dimen name="button_curve">16dp</dimen>
-    <dimen name="layout_height">0dp</dimen>
     <dimen name="big_padding">21dp</dimen>
-    <dimen name="text_size_small">16sp</dimen>
+    <dimen name="text_size_16">16sp</dimen>
     <dimen name="small_padding">6dp</dimen>
     <dimen name="layout_margin_small">4dp</dimen>
     <dimen name="top_padding_title">10dp</dimen>
