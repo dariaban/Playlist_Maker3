@@ -16,10 +16,7 @@
         style="@style/topButton"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="4dp"
         android:layout_weight="0"
-        android:padding="@dimen/padding_title"
-        android:paddingTop="@dimen/top_padding_title"
         android:text="@string/search"
         android:textColor="?attr/colorPrimaryVariant"
         app:backgroundTint="?attr/colorSecondary"
@@ -47,7 +44,6 @@
             android:inputType="text"
             android:lines="1"
             android:paddingStart="12dp"
-            android:textColor="?attr/colorOnSecondary"
             android:textColorHint="?attr/colorOnSecondary"
             android:textCursorDrawable="@drawable/cursor_color"
             android:textSize="@dimen/text_size_16" />
@@ -58,7 +54,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="end"
             android:src="@drawable/clear1"
-            android:visibility="invisible" />
+            android:visibility="gone" />
 
     </FrameLayout>
 </LinearLayout>
