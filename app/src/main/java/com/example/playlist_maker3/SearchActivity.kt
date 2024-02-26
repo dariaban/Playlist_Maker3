@@ -5,20 +5,23 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
-import android.view.View
 import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
 import android.widget.ImageView
 import androidx.core.view.isVisible
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.google.android.material.button.MaterialButton
 
 class SearchActivity : AppCompatActivity() {
+    private lateinit var inputEditText: EditText
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_search)
         val inputEditText: EditText = findViewById(R.id.search_bar)
         if (savedInstanceState != null) {
-            inputEditText.setText(savedInstanceState.getString("EDIT_TEXT_KEY"))
+            inputEditText.setText(savedInstanceState.getString(EDIT_TEXT_KEY))
         }
         val backButton = findViewById<MaterialButton>(R.id.backButton)
         backButton.setOnClickListener {
@@ -45,18 +48,26 @@ class SearchActivity : AppCompatActivity() {
             }
         }
         inputEditText.addTextChangedListener(simpleTextWatcher)
+        val adapter = TrackAdapter()
+        val recyclerView = findViewById<RecyclerView>(R.id.recyclerView)
+        recyclerView.layoutManager = LinearLayoutManager(this)
+        recyclerView.adapter = adapter
 
     }
 
+
     override fun onSaveInstanceState(outState: Bundle) {
-        val editText = findViewById<EditText>(R.id.search_bar)
-        outState.putString("EDIT_TEXT_KEY", editText.text.toString())
+        outState.putString(EDIT_TEXT_KEY, inputEditText.text.toString())
         super.onSaveInstanceState(outState)
     }
 
     override fun onRestoreInstanceState(savedInstanceState: Bundle) {
         super.onRestoreInstanceState(savedInstanceState)
-        savedInstanceState.getString("EDIT_TEXT_KEY").toString()
+        savedInstanceState.getString(EDIT_TEXT_KEY).toString()
+    }
+
+    companion object {
+        const val EDIT_TEXT_KEY = "EDIT_TEXT_KEY"
     }
 }
 
