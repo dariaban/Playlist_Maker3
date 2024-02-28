@@ -66,7 +66,7 @@ class SearchActivity : AppCompatActivity() {
         savedInstanceState.getString(EDIT_TEXT_KEY).toString()
     }
 
-    companion object {
+    private companion object {
         const val EDIT_TEXT_KEY = "EDIT_TEXT_KEY"
     }
 }

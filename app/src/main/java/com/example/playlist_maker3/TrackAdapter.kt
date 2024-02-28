@@ -42,24 +42,20 @@ class TrackAdapter() : RecyclerView.Adapter<TrackAdapter.TrackViewHolder>() {
     ))
 
     class TrackViewHolder(parentView: View) : RecyclerView.ViewHolder(parentView) {
-        private val trackName: TextView
-        private val artistName: TextView
-        private val trackTime: TextView
-        private val artworkUrl100: ImageView
-
-        init {
-            trackName = parentView.findViewById(R.id.trackName)
-            artistName = parentView.findViewById(R.id.artistName)
-            trackTime = parentView.findViewById(R.id.trackTime)
-            artworkUrl100 = parentView.findViewById(R.id.trackArtwork)
-        }
+        private val trackName: TextView = parentView.findViewById(R.id.trackName)
+        private val artistName: TextView = parentView.findViewById(R.id.artistName)
+        private val trackTime: TextView = parentView.findViewById(R.id.trackTime)
+        private val artworkUrl: ImageView = parentView.findViewById(R.id.trackArtwork)
 
         fun bind(track: Track) {
             trackName.text = track.trackName
             artistName.text = track.artistName
             trackTime.text = track.trackTime
-            Glide.with(itemView).load(track.artworkUrl100).placeholder(R.drawable.search)
-                .transform(RoundedCorners(10)).into(artworkUrl100)
+            Glide.with(itemView)
+                .load(track.artworkUrl100)
+                .placeholder(R.drawable.placeholder)
+                .transform(RoundedCorners(10))
+                .into(artworkUrl)
 
         }
     }
