@@ -40,14 +40,13 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@drawable/edittext"
-            android:drawableStart="@drawable/search"
+            android:drawableLeft="@drawable/search"
             android:drawablePadding="8dp"
             android:drawableTint="?attr/colorOnSecondary"
             android:hint="@string/search"
             android:inputType="text"
             android:lines="1"
             android:paddingStart="12dp"
-            android:paddingEnd="12dp"
             android:imeOptions="actionDone"
             android:singleLine="true"
             android:textColor="?attr/colorOnSecondary"
@@ -67,7 +66,7 @@
     <LinearLayout
         android:id="@+id/search_error"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:orientation="vertical"
         android:paddingTop="102dp"
         android:visibility="gone"
@@ -89,12 +88,13 @@
             android:textSize="19sp"
             android:fontFamily="@font/ys_display_regular"
             android:gravity="center"
+            android:textFontWeight="400"
             />
     </LinearLayout>
 <LinearLayout
     android:id="@+id/network_error"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     android:orientation="vertical"
     android:paddingTop="102dp"
     android:visibility="gone"
@@ -116,24 +116,24 @@
         android:textSize="19sp"
         android:fontFamily="@font/ys_display_regular"
         android:gravity="center"
-        android:paddingBottom="24dp"/>
+        android:textFontWeight="400"
+        android:paddingEnd="24dp"/>
 
     <com.google.android.material.button.MaterialButton
-        android:id="@+id/refreshButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:backgroundTint="?attr/colorPrimaryVariant"
         android:fontFamily="@font/ys_display_regular"
-        android:gravity="center"
         android:text="@string/refresh"
         android:textAllCaps="false"
-        android:textColor="?attr/colorSecondary"
+        android:textColor="@color/white"
+        android:textFontWeight="500"
         android:textSize="14sp"
+        app:backgroundTint="?attr/colorPrimaryVariant"
         app:cornerRadius="54dp"
+        android:gravity="center"
         />
 </LinearLayout>
-
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerView"
         android:layout_width="match_parent"
