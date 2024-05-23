@@ -72,6 +72,8 @@ class SearchActivity : AppCompatActivity() {
             val response = retrofit.search(inputEditText.text.toString())
             response.enqueue(object : Callback<MyData> {
                 override fun onResponse(call: Call<MyData>, response: Response<MyData>) {
+                    searchError.visibility = View.GONE
+                    recyclerView.visibility = View.VISIBLE
                     val dataList = response.body()?.results!!
                     val adapter = TrackAdapter(dataList)
                     recyclerView.adapter = adapter
@@ -95,19 +97,21 @@ class SearchActivity : AppCompatActivity() {
                     searchError.visibility = View.GONE
                     val refreshButton = findViewById<MaterialButton>(R.id.refreshButton)
                     refreshButton.setOnClickListener {
-                        networkError.visibility = View.GONE
+                       networkError.visibility = View.GONE
                         recyclerView.visibility = View.VISIBLE
                         searchTrack()
                     }
                 }
             })
         }
+
         inputEditText.setOnEditorActionListener { _, actionId, _ ->
             if (actionId == EditorInfo.IME_ACTION_DONE) {
                 searchTrack()
                 true
             } else false
         }
+
     }
         override fun onSaveInstanceState(outState: Bundle) {
             outState.putString(EDIT_TEXT_KEY, inputEditText.text.toString())
