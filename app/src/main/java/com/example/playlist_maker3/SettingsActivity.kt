@@ -24,7 +24,7 @@ class SettingsActivity : AppCompatActivity() {
             val shareIntent = Intent(Intent.ACTION_SEND)
             shareIntent.setType("text/x-uri")
             Intent.createChooser(shareIntent,null)
-            shareIntent.putExtra(Intent.EXTRA_TEXT, getString(R.string.android_url))
+            shareIntent.putExtra(Intent.EXTRA_TEXT, "@strings/android_url")
             startActivity(shareIntent)
         }
         val supportButton = findViewById<MaterialButton>(R.id.button_support)
@@ -32,14 +32,14 @@ class SettingsActivity : AppCompatActivity() {
             val supportIntent = Intent(Intent.ACTION_SEND)
             supportIntent.setType("text/plain")
             supportIntent.setPackage("com.google.android.gm")
-            supportIntent.putExtra(Intent.EXTRA_TEXT,getString(R.string.support_text))
-            supportIntent.putExtra(Intent.EXTRA_EMAIL,getString(R.string.support_email))
-            supportIntent.putExtra(Intent.EXTRA_SUBJECT,getString(R.string.support_subject))
+            supportIntent.putExtra(Intent.EXTRA_TEXT,"@strings/support_text")
+            supportIntent.putExtra(Intent.EXTRA_EMAIL,"@strings/support_email")
+            supportIntent.putExtra(Intent.EXTRA_SUBJECT,"@strings/support_subject")
             startActivity(supportIntent)
         }
         val agreementButton = findViewById<MaterialButton>(R.id.button_agreement)
         agreementButton.setOnClickListener {
-            val agreementIntent = Intent(Intent.ACTION_VIEW, Uri.parse(getString(R.string.agreement_url)))
+            val agreementIntent = Intent(Intent.ACTION_VIEW, Uri.parse("http://www.yandex.ru/legal/practicum_offer"))
             startActivity(agreementIntent)
         }
         val switchTheme = findViewById<SwitchMaterial>(R.id.button_switch)
