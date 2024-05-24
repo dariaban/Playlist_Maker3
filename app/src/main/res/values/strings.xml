@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">Playlist maker</string>
     <string name="search">Поиск</string>
-    <string name="media">Медиотека</string>
+    <string name="media">Медиатека</string>
     <string name="settings">Настройки</string>
     <string name="theme">Тёмная тема</string>
     <string name="share">Поделиться приложением</string>
@@ -12,4 +12,7 @@
     <string name="support_email">dariabandukova@gmail.com</string>
     <string name="support_subject">Сообщение разработчикам и разработчицам приложения Playlist Maker</string>
     <string name="agreement_url">http://www.yandex.ru/legal/practicum_offer/</string>
+    <string name="refresh">Обновить</string>
+    <string name="network_error">Проблемы со связью\n\nЗагрузка не удалась. Проверьте подключение к интернету</string>
+    <string name="search_error">Ничего не нашлось</string>
 </resources>
