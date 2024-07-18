@@ -10,6 +10,8 @@ import androidx.appcompat.widget.SwitchCompat
 import com.google.android.material.button.MaterialButton
 import com.google.android.material.materialswitch.MaterialSwitch
 import com.google.android.material.switchmaterial.SwitchMaterial
+const val THEME_PREFERENCES = "theme_preferences"
+const val PREFERENCES_KEY = "KEY_FOR_THEME_PREFERENCE"
 
 class SettingsActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -42,14 +44,15 @@ class SettingsActivity : AppCompatActivity() {
             val agreementIntent = Intent(Intent.ACTION_VIEW, Uri.parse(getString(R.string.agreement_url)))
             startActivity(agreementIntent)
         }
-        val switchTheme = findViewById<SwitchMaterial>(R.id.button_switch)
-        switchTheme.setOnCheckedChangeListener { _, b ->
-            if (b) {
-                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
-            } else {
-                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
+        val sharedPreferencesTheme = getSharedPreferences(THEME_PREFERENCES, MODE_PRIVATE)
+        val themeSwitcher = findViewById<SwitchMaterial>(R.id.button_switch)
+        themeSwitcher.setOnCheckedChangeListener { _, checked ->
+            (applicationContext as App).switchTheme(checked)
             }
-        }
 
+        sharedPreferencesTheme.edit()
+            .putBoolean(PREFERENCES_KEY, themeSwitcher.isChecked)
+            .apply()
     }
-}
+    }
+
