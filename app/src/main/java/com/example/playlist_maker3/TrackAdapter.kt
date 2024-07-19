@@ -11,7 +11,7 @@ import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import java.text.SimpleDateFormat
 import java.util.Locale
 
- class TrackAdapter(private val dataList: List<Result>, private val listener: Listener) :
+ class TrackAdapter(private val dataList: List<Track>, private val listener: Listener) :
     RecyclerView.Adapter<TrackAdapter.TrackViewHolder>() {
 
 
@@ -22,7 +22,7 @@ import java.util.Locale
         private val artworkUrl: ImageView = parentView.findViewById(R.id.trackArtwork)
 
 
-        fun bind(track: Result, listener: Listener) {
+        fun bind(track: Track, listener: Listener) {
             val trackTimeFormat =
                 SimpleDateFormat("mm:ss", Locale.getDefault()).format(track.trackTimeMillis)
             trackName.text = track.trackName

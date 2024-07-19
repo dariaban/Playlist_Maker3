@@ -48,11 +48,12 @@ class SettingsActivity : AppCompatActivity() {
         val themeSwitcher = findViewById<SwitchMaterial>(R.id.button_switch)
         themeSwitcher.setOnCheckedChangeListener { _, checked ->
             (applicationContext as App).switchTheme(checked)
+            sharedPreferencesTheme.edit()
+                .putBoolean(PREFERENCES_KEY, themeSwitcher.isChecked)
+                .apply()
             }
 
-        sharedPreferencesTheme.edit()
-            .putBoolean(PREFERENCES_KEY, themeSwitcher.isChecked)
-            .apply()
+
     }
     }
 

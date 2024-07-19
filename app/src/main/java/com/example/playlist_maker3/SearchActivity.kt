@@ -30,11 +30,12 @@ const val HISTORY_PREFERENCES_KEY = "key_for_history_preferences"
 class SearchActivity : Listener, AppCompatActivity() {
     private lateinit var listener: SharedPreferences.OnSharedPreferenceChangeListener
     private lateinit var inputEditText: EditText
-    private val tracks = ArrayList<Result>()
-    private val history = ArrayList<Result>()
+    private val tracks = ArrayList<Track>()
+    private val history = ArrayList<Track>()
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_search)
         val recyclerView: RecyclerView = findViewById(R.id.recyclerView)
         val networkError: LinearLayout = findViewById(R.id.network_error)
@@ -42,7 +43,7 @@ class SearchActivity : Listener, AppCompatActivity() {
         val retrofit = Retrofit.Builder().baseUrl("https://itunes.apple.com/")
             .addConverterFactory(GsonConverterFactory.create()).build()
             .create(ItunesApiService::class.java)
-        super.onCreate(savedInstanceState)
+
         val inputEditText: EditText = findViewById(R.id.search_bar)
         if (savedInstanceState != null) {
             inputEditText.setText(savedInstanceState.getString(EDIT_TEXT_KEY))
@@ -62,14 +63,12 @@ class SearchActivity : Listener, AppCompatActivity() {
             }
 
             override fun afterTextChanged(s: Editable?) {
-                hideKeyboard(inputEditText)
+
             }
         })
         clearButton.setOnClickListener {
             inputEditText.setText("")
-            val inputMethodManager =
-                getSystemService(Context.INPUT_METHOD_SERVICE) as? InputMethodManager
-            inputMethodManager?.hideSoftInputFromWindow(inputEditText.windowToken, 0)
+            hideKeyboard(inputEditText)
         }
         fun searchTrack() {
             val response = retrofit.search(inputEditText.text.toString())
@@ -115,17 +114,16 @@ class SearchActivity : Listener, AppCompatActivity() {
             } else false
         }
       val historySharedPreferences = getSharedPreferences(HISTORY_PREFERENCES, MODE_PRIVATE)
-                val facts = historySharedPreferences.getString(HISTORY_PREFERENCES_KEY,null)
+                val lastSearch = historySharedPreferences.getString(HISTORY_PREFERENCES_KEY,null)
 
-        if (!history.isNullOrEmpty()||facts!=null) {
+        if (!history.isNullOrEmpty()||lastSearch!=null) {
                 val historyView = findViewById<LinearLayout>(R.id.historyView)
                 historyView.visibility = View.VISIBLE
-                val historyAdapter = TrackAdapter(createResultListFromJson(facts).toList(), this)
+                val historyAdapter = TrackAdapter(createResultListFromJson(lastSearch).toSet().toList(), this)
                 val historyRecyclerView = findViewById<RecyclerView>(R.id.recyclerViewHistory)
                 historyRecyclerView.layoutManager = LinearLayoutManager(this)
                 historyRecyclerView.adapter = historyAdapter
                 historyAdapter.notifyDataSetChanged()
-
             }
         val cleanHistory = findViewById<MaterialButton>(R.id.clean_history)
         cleanHistory.setOnClickListener {
@@ -139,6 +137,11 @@ class SearchActivity : Listener, AppCompatActivity() {
             history.clear()
             historySharedPreferences.registerOnSharedPreferenceChangeListener(listener)
             }
+        inputEditText.setOnFocusChangeListener { view, hasFocus ->
+            val historyView = findViewById<LinearLayout>(R.id.historyView)
+            historyView.visibility = View.GONE
+            hideKeyboard(inputEditText)
+        }
         }
 
 
@@ -156,40 +159,32 @@ class SearchActivity : Listener, AppCompatActivity() {
         const val EDIT_TEXT_KEY = "EDIT_TEXT_KEY"
     }
 
-    override fun onClick(result: Result) {
-        val historyView = findViewById<LinearLayout>(R.id.historyView)
-        historyView.visibility = View.VISIBLE
-        history.add(0, result)
+    override fun onClick(track: Track) {
+        val historySharedPreferences = getSharedPreferences(HISTORY_PREFERENCES, MODE_PRIVATE)
+        val lastSearch = historySharedPreferences.getString(HISTORY_PREFERENCES_KEY,null)
+        val lastSearchSet = createResultListFromJson(lastSearch).toSet().toList()
+        if (lastSearch != null) {
+            history.addAll(lastSearchSet)
+        }
+        history.add(0, track)
         if (history.size > 10) {
             history.removeAt(10)
         }
-        val historySharedPreferences = getSharedPreferences(HISTORY_PREFERENCES, MODE_PRIVATE)
         historySharedPreferences.edit()
-            .putString(HISTORY_PREFERENCES_KEY, createJsonFromResult(history)).apply()
-        val historyRecyclerView = findViewById<RecyclerView>(R.id.recyclerViewHistory)
-        val historyAdapter = TrackAdapter(
-            (createResultListFromJson(
-                historySharedPreferences.getString(
-                    HISTORY_PREFERENCES_KEY,
-                    null
-                )
-            ).toSet().toList()), this
-        )
-        historyRecyclerView.adapter = historyAdapter
-        historyRecyclerView.layoutManager = LinearLayoutManager(this)
-        historyAdapter.notifyDataSetChanged()
+            .putString(HISTORY_PREFERENCES_KEY, createJsonFromResult(history.toSet().toMutableList())).apply()
+
     }
     private fun hideKeyboard(view: View){
         val imm = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
             imm.hideSoftInputFromWindow(view.windowToken, 0)
     }
 
-    private fun createJsonFromResult(result: List<Result>): String {
-        return Gson().toJson(result)
+    private fun createJsonFromResult(track: List<Track>): String {
+        return Gson().toJson(track)
     }
 
-    private fun createResultListFromJson(json: String?): Array<Result> {
-        return Gson().fromJson(json, Array<Result>::class.java)
+    private fun createResultListFromJson(json: String?): Array<Track> {
+        return Gson().fromJson(json, Array<Track>::class.java)
     }
     private fun saveHistory(){
         val historySharedPreferences = getSharedPreferences(HISTORY_PREFERENCES, MODE_PRIVATE)
