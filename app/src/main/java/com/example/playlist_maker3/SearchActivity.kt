@@ -31,7 +31,7 @@ class SearchActivity : Listener, AppCompatActivity() {
     private lateinit var listener: SharedPreferences.OnSharedPreferenceChangeListener
     private lateinit var inputEditText: EditText
     private val tracks = ArrayList<Track>()
-    private val history = ArrayList<Track>()
+    private var history = ArrayList<Track>()
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -116,7 +116,7 @@ class SearchActivity : Listener, AppCompatActivity() {
       val historySharedPreferences = getSharedPreferences(HISTORY_PREFERENCES, MODE_PRIVATE)
                 val lastSearch = historySharedPreferences.getString(HISTORY_PREFERENCES_KEY,null)
 
-        if (!history.isNullOrEmpty()||lastSearch!=null) {
+        if (history.isNotEmpty() ||lastSearch!=null) {
                 val historyView = findViewById<LinearLayout>(R.id.historyView)
                 historyView.visibility = View.VISIBLE
                 val historyAdapter = TrackAdapter(createResultListFromJson(lastSearch).toSet().toList(), this)
@@ -129,14 +129,7 @@ class SearchActivity : Listener, AppCompatActivity() {
         cleanHistory.setOnClickListener {
             val historyView = findViewById<LinearLayout>(R.id.historyView)
             historyView.visibility = View.GONE
-            listener = SharedPreferences.OnSharedPreferenceChangeListener { _, key ->
-                if (key == HISTORY_PREFERENCES_KEY) {
-                    historySharedPreferences.edit().clear().apply()
-                }
-            }
-            history.clear()
-            historySharedPreferences.registerOnSharedPreferenceChangeListener(listener)
-            }
+            historySharedPreferences.edit().clear().apply()}
         inputEditText.setOnFocusChangeListener { view, hasFocus ->
             val historyView = findViewById<LinearLayout>(R.id.historyView)
             historyView.visibility = View.GONE
@@ -162,17 +155,17 @@ class SearchActivity : Listener, AppCompatActivity() {
     override fun onClick(track: Track) {
         val historySharedPreferences = getSharedPreferences(HISTORY_PREFERENCES, MODE_PRIVATE)
         val lastSearch = historySharedPreferences.getString(HISTORY_PREFERENCES_KEY,null)
-        val lastSearchSet = createResultListFromJson(lastSearch).toSet().toList()
-        if (lastSearch != null) {
+        if(lastSearch!=null){
+        var lastSearchSet = createResultListFromJson(lastSearch).toMutableList()
             history.addAll(lastSearchSet)
         }
         history.add(0, track)
-        if (history.size > 10) {
-            history.removeAt(10)
+        if (history
+            .size>10){
+        history = (history.take(10)).toSet().toList() as ArrayList<Track>
         }
         historySharedPreferences.edit()
-            .putString(HISTORY_PREFERENCES_KEY, createJsonFromResult(history.toSet().toMutableList())).apply()
-
+            .putString(HISTORY_PREFERENCES_KEY, createJsonFromResult(history)).apply()
     }
     private fun hideKeyboard(view: View){
         val imm = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
@@ -186,21 +179,7 @@ class SearchActivity : Listener, AppCompatActivity() {
     private fun createResultListFromJson(json: String?): Array<Track> {
         return Gson().fromJson(json, Array<Track>::class.java)
     }
-    private fun saveHistory(){
-        val historySharedPreferences = getSharedPreferences(HISTORY_PREFERENCES, MODE_PRIVATE)
-        historySharedPreferences.edit()
-            .putString(HISTORY_PREFERENCES_KEY, createJsonFromResult(history)).apply()
-    }
 
-    override fun onPause() {
-       super.onPause()
-       saveHistory()
-   }
-
-    override fun onStop() {
-        super.onStop()
-       saveHistory()
-   }
 }
 
 
