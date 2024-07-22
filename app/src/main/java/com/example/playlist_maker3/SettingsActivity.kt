@@ -1,6 +1,7 @@
 package com.example.playlist_maker3
 
 import android.content.Intent
+import android.content.res.Configuration
 import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -10,6 +11,8 @@ import androidx.appcompat.widget.SwitchCompat
 import com.google.android.material.button.MaterialButton
 import com.google.android.material.materialswitch.MaterialSwitch
 import com.google.android.material.switchmaterial.SwitchMaterial
+
+
 const val THEME_PREFERENCES = "theme_preferences"
 const val PREFERENCES_KEY = "KEY_FOR_THEME_PREFERENCE"
 
@@ -45,6 +48,7 @@ class SettingsActivity : AppCompatActivity() {
             startActivity(agreementIntent)
         }
         val sharedPreferencesTheme = getSharedPreferences(THEME_PREFERENCES, MODE_PRIVATE)
+        val sharedPreferencesThemeSwitch = sharedPreferencesTheme.getBoolean(PREFERENCES_KEY,false)
         val themeSwitcher = findViewById<SwitchMaterial>(R.id.button_switch)
         themeSwitcher.setOnCheckedChangeListener { _, checked ->
             (applicationContext as App).switchTheme(checked)
@@ -52,8 +56,9 @@ class SettingsActivity : AppCompatActivity() {
                 .putBoolean(PREFERENCES_KEY, themeSwitcher.isChecked)
                 .apply()
             }
-
-
+        if(sharedPreferencesThemeSwitch){
+            themeSwitcher.isChecked = true
+        }
     }
     }
 
