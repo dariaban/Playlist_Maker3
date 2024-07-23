@@ -84,15 +84,13 @@
             android:src="@drawable/nothing_founded"
             />
         <TextView
+            style="@style/searchInfo"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:text="@string/search_error"
             android:paddingTop="16dp"
             android:paddingLeft="24dp"
             android:paddingRight="24dp"
-            android:textColor="?attr/colorPrimaryVariant"
-            android:textSize="19sp"
-            android:fontFamily="@font/ys_display_regular"
             android:gravity="center"
             />
     </LinearLayout>
@@ -111,34 +109,59 @@
         android:src="@drawable/network_error"
         />
     <TextView
+        style="@style/searchInfo"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:text="@string/network_error"
         android:paddingTop="16dp"
         android:paddingLeft="24dp"
         android:paddingRight="24dp"
-        android:textColor="?attr/colorPrimaryVariant"
-        android:textSize="19sp"
-        android:fontFamily="@font/ys_display_regular"
         android:gravity="center"
         android:paddingBottom="24dp"/>
 
     <com.google.android.material.button.MaterialButton
+        style="@style/searchButton"
         android:id="@+id/refreshButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:backgroundTint="?attr/colorPrimaryVariant"
-        android:fontFamily="@font/ys_display_regular"
         android:gravity="center"
         android:text="@string/refresh"
         android:textAllCaps="false"
-        android:textColor="?attr/colorSecondary"
-        android:textSize="14sp"
         app:cornerRadius="54dp"
         />
 </LinearLayout>
-
+    <LinearLayout
+        android:id = "@+id/historyView"
+        android:visibility="gone"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+        <TextView
+            style="@style/searchInfo"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="42dp"
+            android:gravity="center"
+            android:text="@string/history"
+            android:textFontWeight="500"/>
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerViewHistory"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="18dp"
+            />
+        <com.google.android.material.button.MaterialButton
+            style="@style/searchButton"
+            android:id="@+id/clean_history"
+            android:layout_marginTop="24dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:text="@string/clean_history"
+            app:cornerRadius="54dp" />
+    </LinearLayout>
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerView"
         android:layout_width="match_parent"
