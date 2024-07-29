@@ -17,4 +17,9 @@
     <string name="search_error">Ничего не нашлось</string>
     <string name="history">Вы искали</string>
     <string name="clean_history">Очистить историю</string>
+    <string name="length">Длительность</string>
+    <string name="albumName">Альбом</string>
+    <string name="trackYear">Год</string>
+    <string name="trackGenre">Жанр</string>
+    <string name="trackCountry">Страна</string>
 </resources>

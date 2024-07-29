@@ -1,6 +1,7 @@
 package com.example.playlist_maker3
 
 import android.content.Context
+import android.content.Intent
 import android.content.SharedPreferences
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -26,10 +27,9 @@ import retrofit2.converter.gson.GsonConverterFactory
 
 const val HISTORY_PREFERENCES = "history_preferences"
 const val HISTORY_PREFERENCES_KEY = "key_for_history_preferences"
+const val LAST_TRACK_KEY = "key_for_last_track"
 
 class SearchActivity : Listener, AppCompatActivity() {
-    private lateinit var listener: SharedPreferences.OnSharedPreferenceChangeListener
-    private lateinit var inputEditText: EditText
     private val tracks = ArrayList<Track>()
     private var history = ArrayList<Track>()
 
@@ -37,21 +37,20 @@ class SearchActivity : Listener, AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_search)
+        val inputEditText: EditText = findViewById(R.id.search_bar)
         val recyclerView: RecyclerView = findViewById(R.id.recyclerView)
         val networkError: LinearLayout = findViewById(R.id.network_error)
         val searchError: LinearLayout = findViewById(R.id.search_error)
         val retrofit = Retrofit.Builder().baseUrl("https://itunes.apple.com/")
             .addConverterFactory(GsonConverterFactory.create()).build()
             .create(ItunesApiService::class.java)
-
-        val inputEditText: EditText = findViewById(R.id.search_bar)
         if (savedInstanceState != null) {
             inputEditText.setText(savedInstanceState.getString(EDIT_TEXT_KEY))
         }
 
         val backButton = findViewById<MaterialButton>(R.id.backButton)
         backButton.setOnClickListener {
-            finish()
+           finish()
         }
         val clearButton = findViewById<ImageView>(R.id.clearIcon)
         inputEditText.addTextChangedListener(object : TextWatcher {
@@ -139,6 +138,7 @@ class SearchActivity : Listener, AppCompatActivity() {
 
 
     override fun onSaveInstanceState(outState: Bundle) {
+        val inputEditText: EditText = findViewById(R.id.search_bar)
         outState.putString(EDIT_TEXT_KEY, inputEditText.text.toString())
         super.onSaveInstanceState(outState)
     }
@@ -153,6 +153,9 @@ class SearchActivity : Listener, AppCompatActivity() {
     }
 
     override fun onClick(track: Track) {
+        val playerActivityIntent = Intent(this, PlayerActivity::class.java)
+        playerActivityIntent.putExtra(LAST_TRACK_KEY, track)
+        startActivity(playerActivityIntent)
         val historySharedPreferences = getSharedPreferences(HISTORY_PREFERENCES, MODE_PRIVATE)
         val lastSearch = historySharedPreferences.getString(HISTORY_PREFERENCES_KEY,null)
         if(lastSearch!=null){
