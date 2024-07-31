@@ -3,6 +3,7 @@ package com.example.playlist_maker3
 import android.os.Bundle
 import android.widget.ImageView
 import android.widget.TextView
+import android.widget.Toolbar
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.IntentCompat
 import com.bumptech.glide.Glide
@@ -17,8 +18,8 @@ class PlayerActivity:AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
        setContentView(R.layout.activity_player)
-       val backButton = findViewById<MaterialButton>(R.id.backButton)
-        backButton.setOnClickListener {
+       val backButton = findViewById<Toolbar>(R.id.backButton)
+        backButton.setNavigationOnClickListener {
            finish()
         }
 

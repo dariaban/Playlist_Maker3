@@ -6,13 +6,12 @@
     android:layout_height="match_parent"
     android:background="?attr/colorSecondary">
 
-    <com.google.android.material.button.MaterialButton
+    <Toolbar
+        android:backgroundTint="?attr/colorSecondary"
         android:id="@+id/backButton"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:backgroundTint="?attr/colorSecondary"
-        app:icon="@drawable/arrow"
-        app:iconTint="?attr/colorPrimaryVariant"
+        android:navigationIcon = "@drawable/arrow"
         app:layout_constraintBottom_toTopOf="@id/image"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
