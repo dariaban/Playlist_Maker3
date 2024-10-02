@@ -49,7 +49,7 @@
             android:paddingStart="12dp"
             android:imeOptions="actionDone"
             android:singleLine="true"
-            android:textColor="?attr/colorOnSecondary"
+            android:textColor="@color/black"
             android:textColorHint="?attr/colorOnSecondary"
             android:textCursorDrawable="@drawable/cursor_color"
             android:textSize="@dimen/text_size_16" />

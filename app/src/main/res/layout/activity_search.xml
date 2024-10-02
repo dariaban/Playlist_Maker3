@@ -48,6 +48,9 @@
             android:paddingEnd="12dp"
             android:imeOptions="actionDone"
             android:singleLine="true"
+
+            android:textColor="@color/black"
+
             android:textColor="?attr/colorOnSecondary"
 
 
