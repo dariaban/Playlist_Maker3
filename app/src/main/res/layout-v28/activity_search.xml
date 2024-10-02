@@ -62,7 +62,14 @@
             android:src="@drawable/clear1"
             android:visibility="invisible" />
     </FrameLayout>
-
+    <ProgressBar
+        android:id="@+id/progress_circular"
+        android:layout_marginTop="140dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:indeterminateTint="@color/blue"
+        android:visibility="gone"/>
     <LinearLayout
         android:id="@+id/search_error"
         android:layout_width="match_parent"
