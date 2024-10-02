@@ -1,12 +1,15 @@
 package com.example.playlist_maker3
 
+
 import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
+master
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
+
 import android.view.View
 import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
@@ -16,6 +19,14 @@ import android.widget.LinearLayout
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+
+
+import com.example.playlist_maker3.Result
+
+
+
+
+
 import com.google.android.material.button.MaterialButton
 import com.google.gson.Gson
 import retrofit2.Call
@@ -37,13 +48,20 @@ class SearchActivity : Listener, AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_search)
+
         val inputEditText: EditText = findViewById(R.id.search_bar)
+
         val recyclerView: RecyclerView = findViewById(R.id.recyclerView)
         val networkError: LinearLayout = findViewById(R.id.network_error)
         val searchError: LinearLayout = findViewById(R.id.search_error)
         val retrofit = Retrofit.Builder().baseUrl("https://itunes.apple.com/")
             .addConverterFactory(GsonConverterFactory.create()).build()
             .create(ItunesApiService::class.java)
+
+
+
+        val inputEditText: EditText = findViewById(R.id.search_bar)
+
         if (savedInstanceState != null) {
             inputEditText.setText(savedInstanceState.getString(EDIT_TEXT_KEY))
         }
@@ -52,23 +70,54 @@ class SearchActivity : Listener, AppCompatActivity() {
         backButton.setOnClickListener {
            finish()
         }
+        val inputEditText: EditText = findViewById(R.id.search_bar)
         val clearButton = findViewById<ImageView>(R.id.clearIcon)
+
         inputEditText.addTextChangedListener(object : TextWatcher {
+
+        fun clearButtonVisibility(s: CharSequence?): Int {
+            return if (s.isNullOrEmpty()) {
+                View.GONE
+            } else {
+                View.VISIBLE
+            }
+        }
+        clearButton.setOnClickListener {
+            inputEditText.setText("")
+        }
+        val simpleTextWatcher = object : TextWatcher {
+
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
             }
 
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-                clearButton.isVisible = !s.isNullOrEmpty()
+                clearButton.visibility = clearButtonVisibility(s)
             }
 
             override fun afterTextChanged(s: Editable?) {
-
             }
         })
         clearButton.setOnClickListener {
             inputEditText.setText("")
             hideKeyboard(inputEditText)
         }
+
+
+        inputEditText.addTextChangedListener(simpleTextWatcher)
+
+        val adapter = TrackAdapter()
+
+        val recyclerView = findViewById<RecyclerView>(R.id.recyclerView)
+        val networkError = findViewById<LinearLayout>(R.id.network_error)
+        val searchError = findViewById<LinearLayout>(R.id.search_error)
+
+        val retrofit = Retrofit.Builder()
+            .baseUrl("https://itunes.apple.com/")
+            .addConverterFactory(GsonConverterFactory.create())
+            .build()
+            .create(ItunesApiService::class.java)
+
+
         fun searchTrack() {
             val response = retrofit.search(inputEditText.text.toString())
             response.enqueue(object : Callback<MyData> {
@@ -92,6 +141,7 @@ class SearchActivity : Listener, AppCompatActivity() {
                     }
 
                 }
+
 
                 override fun onFailure(call: Call<MyData>, t: Throwable) {
                     networkError.visibility = View.VISIBLE
@@ -140,13 +190,33 @@ class SearchActivity : Listener, AppCompatActivity() {
     override fun onSaveInstanceState(outState: Bundle) {
         val inputEditText: EditText = findViewById(R.id.search_bar)
         outState.putString(EDIT_TEXT_KEY, inputEditText.text.toString())
+super.onSaveInstanceState(outState)
+
+
+        inputEditText.setText(savedValue)
+    }
+
+
+    private var savedValue: String = DEF_VALUE
+    override fun onSaveInstanceState(outState: Bundle) {
+
         super.onSaveInstanceState(outState)
+        outState.putString(SEARCH_VALUE, savedValue)
+    }
+
+
+    override fun onRestoreInstanceState(savedInstanceState: Bundle) {
+        super.onRestoreInstanceState(savedInstanceState)
+        savedInstanceState.getString(EDIT_TEXT_KEY).toString()
+
+
     }
 
     override fun onRestoreInstanceState(savedInstanceState: Bundle) {
         super.onRestoreInstanceState(savedInstanceState)
         savedInstanceState.getString(EDIT_TEXT_KEY).toString()
     }
+
 
     private companion object {
         const val EDIT_TEXT_KEY = "EDIT_TEXT_KEY"
@@ -161,6 +231,11 @@ class SearchActivity : Listener, AppCompatActivity() {
         if(lastSearch!=null){
         var lastSearchSet = createResultListFromJson(lastSearch).toMutableList()
             history.addAll(lastSearchSet)
+
+
+        private companion object {
+            const val EDIT_TEXT_KEY = "EDIT_TEXT_KEY"
+
         }
         history.add(0, track)
         if (history
@@ -190,5 +265,20 @@ class SearchActivity : Listener, AppCompatActivity() {
 
 
 
+    private companion object {
+        const val EDIT_TEXT_KEY = "EDIT_TEXT_KEY"
+
+    companion object {
+        const val SEARCH_VALUE = "SEARCH_VALUE"
+        const val DEF_VALUE = " "
+
+    }
 
 
+    override fun onRestoreInstanceState(savedInstanceState: Bundle) {
+        super.onRestoreInstanceState(savedInstanceState)
+        savedValue = savedInstanceState.getString(SEARCH_VALUE, DEF_VALUE)
+
+    }
+
+}
