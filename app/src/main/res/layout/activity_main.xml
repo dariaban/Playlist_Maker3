@@ -7,7 +7,7 @@
     android:background="?attr/colorPrimary"
     android:orientation="vertical"
     android:theme="@style/Theme.MyApp"
-    tools:context=".MainActivity">
+    tools:context=".ui.tracks.MainActivity">
 
     <TextView
         android:layout_width="wrap_content"
