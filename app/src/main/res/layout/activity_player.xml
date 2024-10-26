@@ -74,13 +74,27 @@
         app:layout_constraintTop_toBottomOf="@+id/artistName" />
 
     <com.google.android.material.button.MaterialButton
+        android:visibility="gone"
+        android:id="@+id/play_pause"
+        style="@style/playButtons"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="30dp"
+        android:backgroundTint="?attr/colorSecondary"
+        app:icon="@drawable/pause"
+        app:iconTint="?attr/colorPrimaryVariant"
+        app:layout_constraintEnd_toStartOf="@+id/like_button"
+        app:layout_constraintStart_toEndOf="@+id/add_button"
+        app:layout_constraintTop_toBottomOf="@+id/artistName" />
+    <ImageButton
         android:id="@+id/play_button"
         style="@style/playButtons"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="30dp"
         android:backgroundTint="?attr/colorSecondary"
-        app:icon="@drawable/play_button"
+        android:src="@drawable/play_button"
+        android:scaleType="fitCenter"
         app:iconTint="?attr/colorPrimaryVariant"
         app:layout_constraintEnd_toStartOf="@+id/like_button"
         app:layout_constraintStart_toEndOf="@+id/add_button"

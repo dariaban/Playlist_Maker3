@@ -22,4 +22,5 @@
     <string name="trackYear">Год</string>
     <string name="trackGenre">Жанр</string>
     <string name="trackCountry">Страна</string>
+    <string name="trackStarts">00:00</string>
 </resources>
