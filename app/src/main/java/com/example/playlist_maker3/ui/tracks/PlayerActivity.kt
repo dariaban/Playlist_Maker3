@@ -22,8 +22,7 @@ import java.text.SimpleDateFormat
 import java.util.Locale
 import kotlin.properties.Delegates
 
-const val SELECTED_TRACK_KEY = "key_for_last_track"
-const val CURRENT_POSITION_DELAY = 3L
+
 
 class PlayerActivity : AppCompatActivity(), PlayerPresenter{
     private lateinit var track: Track
@@ -99,5 +98,9 @@ class PlayerActivity : AppCompatActivity(), PlayerPresenter{
     override fun onDestroy() {
         super.onDestroy()
         playbackControl.release()
+    }
+    companion object{
+        const val SELECTED_TRACK_KEY = "key_for_last_track"
+        const val CURRENT_POSITION_DELAY = 3L
     }
 }

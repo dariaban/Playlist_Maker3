@@ -3,14 +3,15 @@ package com.example.playlist_maker3.ui.tracks
 import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import com.example.playlist_maker3.Creator
 import com.example.playlist_maker3.R
 import com.google.android.material.button.MaterialButton
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
+
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-
         val button_search = findViewById<MaterialButton>(R.id.button_search)
         button_search.setOnClickListener {
             val displayIntent_search = Intent(this, SearchActivity::class.java)

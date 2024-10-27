@@ -1,11 +1,8 @@
 package com.example.playlist_maker3.domain
 
 import java.text.SimpleDateFormat
-import java.util.*
-
-class TimeFormatter {
-
-    companion object {
+import java.util.Locale
+object TimeFormatter {
         private const val TIME_FORMAT = "mm:ss"
         const val ZERO_TIME = "00:00"
 
@@ -18,4 +15,3 @@ class TimeFormatter {
     }
 
 
-}

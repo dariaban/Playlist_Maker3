@@ -1,22 +1,26 @@
 package com.example.playlist_maker3.ui.tracks
 
+
 import android.content.Intent
 import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import com.example.playlist_maker3.domain.App
+import com.example.playlist_maker3.Creator
 import com.example.playlist_maker3.R
 import com.google.android.material.button.MaterialButton
 import com.google.android.material.switchmaterial.SwitchMaterial
+import kotlin.properties.Delegates
 
 
-const val THEME_PREFERENCES = "theme_preferences"
-const val PREFERENCES_KEY = "KEY_FOR_THEME_PREFERENCE"
+
+private lateinit var themeSwitcher: SwitchMaterial
+private var sharedPreferencesThemeSaved by Delegates.notNull<Boolean>()
 
 class SettingsActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_settings)
+        themeSwitcher = findViewById(R.id.button_switch)
         val backButton = findViewById<MaterialButton>(R.id.backButton)
         backButton.setOnClickListener {
             finish()
@@ -46,18 +50,39 @@ class SettingsActivity : AppCompatActivity() {
             startActivity(agreementIntent)
         }
         val sharedPreferencesTheme = getSharedPreferences(THEME_PREFERENCES, MODE_PRIVATE)
-        val sharedPreferencesThemeSwitch = sharedPreferencesTheme.getBoolean(PREFERENCES_KEY, false)
-        val themeSwitcher = findViewById<SwitchMaterial>(R.id.button_switch)
-        themeSwitcher.setOnCheckedChangeListener { _, checked ->
-            (applicationContext as App).switchTheme(checked)
-            sharedPreferencesTheme.edit()
-                .putBoolean(PREFERENCES_KEY, themeSwitcher.isChecked)
-                .apply()
+        val themeCreator = Creator.provideDarkTheme(sharedPreferencesTheme)
+        sharedPreferencesThemeSaved = Creator.provideDarkTheme(sharedPreferencesTheme)
+            .getThemePreferences(sharedPreferencesTheme)
+        if (!sharedPreferencesThemeSaved) {
+            themeSwitcher.isChecked
         }
-        if (sharedPreferencesThemeSwitch) {
+
+        checkSwitcher()
+
+        themeSwitcher.setOnCheckedChangeListener { _, checked ->
+            if (checked) {
+                themeCreator.switchTheme(sharedPreferencesTheme, true)
+                themeSwitcher.isChecked
+            } else {
+                themeCreator.switchTheme(sharedPreferencesTheme, false)
+            }
+
+        }
+
+
+    }
+
+    private fun checkSwitcher() {
+        if (sharedPreferencesThemeSaved) {
             themeSwitcher.isChecked = true
         }
     }
+    companion object{
+        const val THEME_PREFERENCES = "theme_preferences"
+
+    }
 }
+
+
 
 

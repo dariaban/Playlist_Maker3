@@ -3,7 +3,6 @@ package com.example.playlist_maker3.domain.impl
 
 import com.example.playlist_maker3.domain.api.TrackRepository
 import com.example.playlist_maker3.domain.api.TracksInteractor
-import java.util.concurrent.ExecutorService
 import java.util.concurrent.Executors
 
 class TrackInteractorImpl(private val repository: TrackRepository) : TracksInteractor {

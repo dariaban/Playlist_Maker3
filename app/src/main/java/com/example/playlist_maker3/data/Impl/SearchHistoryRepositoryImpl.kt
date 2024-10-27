@@ -1,12 +1,11 @@
 package com.example.playlist_maker3.data.Impl
 
 import android.content.SharedPreferences
+import com.example.playlist_maker3.domain.api.PlayerInteractor
 import com.example.playlist_maker3.domain.api.SearchHistoryRepository
 import com.example.playlist_maker3.domain.models.Track
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
-
-const val HISTORY_PREFERENCES_KEY = "key_for_history_preferences"
 
 class SearchHistoryRepositoryImpl(private val historySharedPreferences: SharedPreferences) :
     SearchHistoryRepository {
@@ -33,5 +32,8 @@ class SearchHistoryRepositoryImpl(private val historySharedPreferences: SharedPr
             tracks.removeLast()
         }
         saveHistory(tracks)
+    }
+    companion object{
+        private const val HISTORY_PREFERENCES_KEY = "key_for_history_preferences"
     }
 }

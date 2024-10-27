@@ -26,16 +26,7 @@ import com.example.playlist_maker3.domain.api.TracksInteractor
 import com.example.playlist_maker3.domain.models.Track
 import com.google.android.material.button.MaterialButton
 
-
-const val HISTORY_PREFERENCES = "history_preferences"
-const val HISTORY_PREFERENCES_KEY = "key_for_history_preferences"
-
-const val LAST_TRACK_KEY = "key_for_last_track"
-private const val SEARCH_DEBOUNCE_DELAY = 2000L
-private const val CLICK_DEBOUNCE_DELAY = 1000L
 private var isClickAllowed = true
-private val handler = Handler(Looper.getMainLooper())
-
 
 class SearchActivity : Listener, AppCompatActivity() {
     private val tracks = ArrayList<Track>()
@@ -53,7 +44,7 @@ class SearchActivity : Listener, AppCompatActivity() {
     private lateinit var historySharedPreferences: SharedPreferences
     private lateinit var historyAdapter: TrackAdapter
     private lateinit var cleanHistoryButton: MaterialButton
-
+    private val handler = Handler(Looper.getMainLooper())
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -68,8 +59,6 @@ class SearchActivity : Listener, AppCompatActivity() {
         inputEditText = findViewById(R.id.search_bar)
         historyView = findViewById(R.id.historyView)
         cleanHistoryButton = findViewById(R.id.clean_history)
-
-
 
         if (savedInstanceState != null) {
             inputEditText.setText(savedInstanceState.getString(EDIT_TEXT_KEY))
@@ -144,6 +133,11 @@ class SearchActivity : Listener, AppCompatActivity() {
 
     private companion object {
         const val EDIT_TEXT_KEY = "EDIT_TEXT_KEY"
+        const val HISTORY_PREFERENCES = "history_preferences"
+        const val HISTORY_PREFERENCES_KEY = "key_for_history_preferences"
+        const val LAST_TRACK_KEY = "key_for_last_track"
+        private const val SEARCH_DEBOUNCE_DELAY = 2000L
+        private const val CLICK_DEBOUNCE_DELAY = 1000L
     }
 
     private fun clickDebounce(): Boolean {
@@ -159,7 +153,10 @@ class SearchActivity : Listener, AppCompatActivity() {
         if (clickDebounce()) {
             getHistoryRepository.provideSearchHistoryRepository(historySharedPreferences)
                 .addTrack(track)
-            historyAdapter = TrackAdapter(getHistoryRepository.provideSearchHistoryRepository(historySharedPreferences).getTrackHistory(), this)
+            historyAdapter = TrackAdapter(
+                getHistoryRepository.provideSearchHistoryRepository(historySharedPreferences)
+                    .getTrackHistory(), this
+            )
             historyAdapter.notifyDataSetChanged()
             val playerActivityIntent = Intent(this, PlayerActivity::class.java)
             playerActivityIntent.putExtra(LAST_TRACK_KEY, track)
@@ -270,7 +267,9 @@ class SearchActivity : Listener, AppCompatActivity() {
                     }
                 }
             })
+
     }
+
 }
 
 
