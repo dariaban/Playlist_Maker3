@@ -1,4 +1,4 @@
-package com.example.playlist_maker3.domain.api
+package com.example.playlist_maker3.data.repository
 
 import com.example.playlist_maker3.domain.models.Track
 

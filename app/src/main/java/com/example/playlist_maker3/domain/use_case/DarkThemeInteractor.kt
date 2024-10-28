@@ -1,29 +1,29 @@
-package com.example.playlist_maker3.data
+package com.example.playlist_maker3.domain.use_case
 
 import android.content.SharedPreferences
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.appcompat.app.AppCompatDelegate.MODE_NIGHT_NO
 import androidx.appcompat.app.AppCompatDelegate.MODE_NIGHT_YES
-import com.example.playlist_maker3.domain.api.DarkTheme
+import com.example.playlist_maker3.data.repository.DarkTheme
 
 
-class DarkThemeImpl(themePreferences: SharedPreferences) : DarkTheme {
-    override fun getThemePreferences(themePreferences: SharedPreferences): Boolean {
+class DarkThemeInteractor(private val themePreferences: SharedPreferences) : DarkTheme {
+    override fun getThemePreferences(): Boolean {
         val darkTheme = themePreferences.getBoolean(PREFERENCES_KEY, false)
         return darkTheme
     }
 
-    override fun switchTheme(themePreferences: SharedPreferences, darkTheme: Boolean) {
+    override fun switchTheme(darkTheme: Boolean) {
         if (darkTheme) {
             AppCompatDelegate.setDefaultNightMode(MODE_NIGHT_YES)
-            saveTheme(themePreferences, true)
+            saveTheme(true)
         } else {
             AppCompatDelegate.setDefaultNightMode(MODE_NIGHT_NO)
-            saveTheme(themePreferences, true)
+            saveTheme(true)
         }
     }
 
-    override fun saveTheme(themePreferences: SharedPreferences, state: Boolean) {
+    override fun saveTheme( state: Boolean) {
         themePreferences.edit()
             .putBoolean(PREFERENCES_KEY, state)
             .apply()
@@ -34,3 +34,4 @@ class DarkThemeImpl(themePreferences: SharedPreferences) : DarkTheme {
     }
 
 }
+

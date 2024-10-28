@@ -1,7 +1,7 @@
 package com.example.playlist_maker3.domain.api
 
-import com.example.playlist_maker3.domain.PlayerPresenter
-import com.example.playlist_maker3.domain.TimeFormatter
+import com.example.playlist_maker3.presentation.PlayerPresenter
+import com.example.playlist_maker3.presentation.TimeFormatter
 import com.example.playlist_maker3.domain.models.Track
 
 class PlaybackControlImpl(val mediaPlayer: PlayerInteractor, val playerPresenter: PlayerPresenter) :

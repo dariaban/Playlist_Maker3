@@ -1,4 +1,4 @@
-package com.example.playlist_maker3.domain
+package com.example.playlist_maker3.presentation
     interface PlayerPresenter {
         fun startPlayer()
         fun pausePlayer()

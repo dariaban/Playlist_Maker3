@@ -20,10 +20,11 @@ import androidx.core.view.isVisible
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.playlist_maker3.Creator
-import com.example.playlist_maker3.domain.Listener
+import com.example.playlist_maker3.domain.models.Listener
 import com.example.playlist_maker3.R
 import com.example.playlist_maker3.domain.api.TracksInteractor
 import com.example.playlist_maker3.domain.models.Track
+import com.example.playlist_maker3.domain.use_case.HistoryInteractor
 import com.google.android.material.button.MaterialButton
 
 private var isClickAllowed = true
@@ -40,7 +41,7 @@ class SearchActivity : Listener, AppCompatActivity() {
     private lateinit var progressBar: ProgressBar
     private lateinit var backButton: MaterialButton
     private lateinit var clearButton: ImageView
-    private lateinit var getHistoryRepository: Creator
+    private lateinit var historyInteractor: HistoryInteractor
     private lateinit var historySharedPreferences: SharedPreferences
     private lateinit var historyAdapter: TrackAdapter
     private lateinit var cleanHistoryButton: MaterialButton
@@ -59,6 +60,7 @@ class SearchActivity : Listener, AppCompatActivity() {
         inputEditText = findViewById(R.id.search_bar)
         historyView = findViewById(R.id.historyView)
         cleanHistoryButton = findViewById(R.id.clean_history)
+
 
         if (savedInstanceState != null) {
             inputEditText.setText(savedInstanceState.getString(EDIT_TEXT_KEY))
@@ -111,8 +113,7 @@ class SearchActivity : Listener, AppCompatActivity() {
             hideKeyboard(inputEditText)
         }
         cleanHistoryButton.setOnClickListener {
-            getHistoryRepository.provideSearchHistoryRepository(historySharedPreferences)
-                .clearHistory()
+            historyInteractor.clearHistory()
             historyAdapter = TrackAdapter(history, this)
             historyAdapter.notifyDataSetChanged()
             showEmptyPage()
@@ -151,11 +152,9 @@ class SearchActivity : Listener, AppCompatActivity() {
 
     override fun onClick(track: Track) {
         if (clickDebounce()) {
-            getHistoryRepository.provideSearchHistoryRepository(historySharedPreferences)
-                .addTrack(track)
+            historyInteractor.addTrack(track)
             historyAdapter = TrackAdapter(
-                getHistoryRepository.provideSearchHistoryRepository(historySharedPreferences)
-                    .getTrackHistory(), this
+                historyInteractor.getTrackHistory(), this
             )
             historyAdapter.notifyDataSetChanged()
             val playerActivityIntent = Intent(this, PlayerActivity::class.java)
@@ -165,12 +164,9 @@ class SearchActivity : Listener, AppCompatActivity() {
     }
 
     private fun getSharedHistory() {
-        getHistoryRepository = Creator
         historySharedPreferences = getSharedPreferences(HISTORY_PREFERENCES, MODE_PRIVATE)
-        getHistoryRepository.provideSearchHistoryRepository(historySharedPreferences)
-        history =
-            getHistoryRepository.provideSearchHistoryRepository(historySharedPreferences)
-                .getTrackHistory()
+        historyInteractor = HistoryInteractor(historySharedPreferences)
+        history = historyInteractor.getTrackHistory()
         val lastTrack = historySharedPreferences.getString(HISTORY_PREFERENCES_KEY, null)
         if (history.isNotEmpty() || !lastTrack.isNullOrEmpty()) {
             historyView.visibility = View.VISIBLE

@@ -9,7 +9,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.example.playlist_maker3.R
-import com.example.playlist_maker3.domain.Listener
+import com.example.playlist_maker3.domain.models.Listener
 import com.example.playlist_maker3.domain.models.Track
 import java.text.SimpleDateFormat
 import java.util.Locale

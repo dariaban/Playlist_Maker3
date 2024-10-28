@@ -1,6 +1,5 @@
 package com.example.playlist_maker3.ui.tracks
 
-import android.media.MediaPlayer
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
@@ -9,22 +8,19 @@ import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toolbar
 import androidx.appcompat.app.AppCompatActivity
-import androidx.appcompat.content.res.AppCompatResources
 import androidx.core.content.IntentCompat
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.example.playlist_maker3.Creator
 import com.example.playlist_maker3.R
-import com.example.playlist_maker3.domain.PlayerPresenter
+import com.example.playlist_maker3.presentation.PlayerPresenter
 import com.example.playlist_maker3.domain.api.PlaybackControl
 import com.example.playlist_maker3.domain.models.Track
 import java.text.SimpleDateFormat
 import java.util.Locale
-import kotlin.properties.Delegates
 
 
-
-class PlayerActivity : AppCompatActivity(), PlayerPresenter{
+class PlayerActivity : AppCompatActivity(), PlayerPresenter {
     private lateinit var track: Track
     private lateinit var playButton: ImageButton
     private lateinit var previewUri: String
