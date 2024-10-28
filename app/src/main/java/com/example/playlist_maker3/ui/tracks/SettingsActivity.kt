@@ -13,13 +13,13 @@ import com.google.android.material.button.MaterialButton
 import com.google.android.material.switchmaterial.SwitchMaterial
 import kotlin.properties.Delegates
 
-private lateinit var themeSwitcher: SwitchMaterial
-private lateinit var darkThemeInteractor: DarkThemeInteractor
-
 class SettingsActivity : AppCompatActivity() {
+    private lateinit var themeSwitcher: SwitchMaterial
+    private lateinit var darkThemeInteractor: DarkThemeInteractor
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_settings)
+        darkThemeInteractor = DarkThemeInteractor(this)
         themeSwitcher = findViewById(R.id.button_switch)
         val backButton = findViewById<MaterialButton>(R.id.backButton)
         backButton.setOnClickListener {
@@ -49,8 +49,6 @@ class SettingsActivity : AppCompatActivity() {
                 Intent(Intent.ACTION_VIEW, Uri.parse(getString(R.string.agreement_url)))
             startActivity(agreementIntent)
         }
-        val sharedPreferencesTheme = getSharedPreferences(THEME_PREFERENCES, MODE_PRIVATE)
-        darkThemeInteractor = DarkThemeInteractor(sharedPreferencesTheme)
         val sharedPreferencesThemeSaved = darkThemeInteractor.getThemePreferences()
         if (!sharedPreferencesThemeSaved) {
             themeSwitcher.isChecked
@@ -74,9 +72,6 @@ class SettingsActivity : AppCompatActivity() {
         if (sharedPreferencesThemeSaved) {
             themeSwitcher.isChecked = true
         }
-    }
-    companion object{
-        const val THEME_PREFERENCES = "theme_preferences"
     }
 }
 

@@ -7,6 +7,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
+import android.os.Parcelable
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.View
@@ -41,11 +42,10 @@ class SearchActivity : Listener, AppCompatActivity() {
     private lateinit var progressBar: ProgressBar
     private lateinit var backButton: MaterialButton
     private lateinit var clearButton: ImageView
-    private lateinit var historyInteractor: HistoryInteractor
-    private lateinit var historySharedPreferences: SharedPreferences
     private lateinit var historyAdapter: TrackAdapter
     private lateinit var cleanHistoryButton: MaterialButton
     private val handler = Handler(Looper.getMainLooper())
+    private lateinit var historyInteractor: HistoryInteractor
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -60,6 +60,7 @@ class SearchActivity : Listener, AppCompatActivity() {
         inputEditText = findViewById(R.id.search_bar)
         historyView = findViewById(R.id.historyView)
         cleanHistoryButton = findViewById(R.id.clean_history)
+
 
 
         if (savedInstanceState != null) {
@@ -134,8 +135,6 @@ class SearchActivity : Listener, AppCompatActivity() {
 
     private companion object {
         const val EDIT_TEXT_KEY = "EDIT_TEXT_KEY"
-        const val HISTORY_PREFERENCES = "history_preferences"
-        const val HISTORY_PREFERENCES_KEY = "key_for_history_preferences"
         const val LAST_TRACK_KEY = "key_for_last_track"
         private const val SEARCH_DEBOUNCE_DELAY = 2000L
         private const val CLICK_DEBOUNCE_DELAY = 1000L
@@ -164,11 +163,9 @@ class SearchActivity : Listener, AppCompatActivity() {
     }
 
     private fun getSharedHistory() {
-        historySharedPreferences = getSharedPreferences(HISTORY_PREFERENCES, MODE_PRIVATE)
-        historyInteractor = HistoryInteractor(historySharedPreferences)
+        historyInteractor = HistoryInteractor(this)
         history = historyInteractor.getTrackHistory()
-        val lastTrack = historySharedPreferences.getString(HISTORY_PREFERENCES_KEY, null)
-        if (history.isNotEmpty() || !lastTrack.isNullOrEmpty()) {
+         if (history.isNotEmpty()) {
             historyView.visibility = View.VISIBLE
             historyAdapter = TrackAdapter(history, this)
             historyRecyclerView.layoutManager = LinearLayoutManager(this)
@@ -176,14 +173,6 @@ class SearchActivity : Listener, AppCompatActivity() {
             historyAdapter.notifyDataSetChanged()
         } else {
             showEmptyPage()
-        }
-
-
-        SharedPreferences.OnSharedPreferenceChangeListener { _: SharedPreferences, key: String? ->
-            if (key == HISTORY_PREFERENCES_KEY) {
-                historyAdapter = TrackAdapter(history, this)
-                historyAdapter.notifyDataSetChanged()
-            }
         }
     }
 

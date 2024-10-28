@@ -7,8 +7,7 @@ class App: Application() {
     private var darkTheme : Boolean = false
     override fun onCreate() {
         super.onCreate()
-        val themePreference = getSharedPreferences(THEME_PREFERENCES, MODE_PRIVATE)
-        val darkThemeInteractor = DarkThemeInteractor(themePreference)
+        val darkThemeInteractor = DarkThemeInteractor(this)
         darkTheme = darkThemeInteractor.getThemePreferences()
         switchTheme(darkTheme)
     }
@@ -22,9 +21,6 @@ class App: Application() {
                 AppCompatDelegate.MODE_NIGHT_NO
             }
         )
-    }
-    companion object{
-        const val THEME_PREFERENCES = "theme_preferences"
     }
 }
 

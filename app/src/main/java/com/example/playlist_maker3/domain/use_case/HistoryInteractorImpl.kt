@@ -1,13 +1,20 @@
 package com.example.playlist_maker3.domain.use_case
 
+import android.content.Context
+import android.content.Context.MODE_PRIVATE
 import android.content.SharedPreferences
 import com.example.playlist_maker3.data.repository.SearchHistoryRepository
 import com.example.playlist_maker3.domain.models.Track
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 
-class HistoryInteractor(private val historySharedPreferences: SharedPreferences):
+class HistoryInteractor(context: Context):
     SearchHistoryRepository {
+
+    private val historySharedPreferences: SharedPreferences = context.getSharedPreferences(
+        HISTORY_PREFERENCES,
+        MODE_PRIVATE
+    )
     override fun getTrackHistory(): ArrayList<Track> {
         val json = historySharedPreferences.getString(HISTORY_PREFERENCES_KEY, null)
             ?: return arrayListOf()
@@ -33,6 +40,7 @@ class HistoryInteractor(private val historySharedPreferences: SharedPreferences)
         saveHistory(tracks)
     }
     companion object{
-        private const val HISTORY_PREFERENCES_KEY = "key_for_history_preferences"
+        const val HISTORY_PREFERENCES = "history_preferences"
+        const val HISTORY_PREFERENCES_KEY = "key_for_history_preferences"
     }
 }
