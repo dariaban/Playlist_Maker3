@@ -19,12 +19,7 @@ class SearchHistoryInteractorImpl(private val searchHistoryRepository: SearchHis
     }
 
     override fun addTrack(track: Track) {
-        getHistory().add(0, track)
-        getHistory().toSet().toList()
-        if (getHistory().size > 10) {
-            getHistory().removeLast()
-        }
-        saveHistory()
+    searchHistoryRepository.addTrack(track)
     }
 
 }

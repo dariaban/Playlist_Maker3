@@ -3,6 +3,7 @@ package com.example.playlist_maker3.data.repository
 import android.content.Context
 import android.content.Context.MODE_PRIVATE
 import android.content.SharedPreferences
+import com.example.playlist_maker3.Creator
 import com.example.playlist_maker3.domain.models.Track
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
@@ -25,6 +26,14 @@ class SearchHistoryRepositoryImpl(context: Context): SearchHistoryRepository {
     override fun saveHistory(history: MutableList<Track>) {
         val json = Gson().toJson(history)
         historySharedPreferences.edit().putString(HISTORY_PREFERENCES_KEY, json).apply()
+    }
+    override fun addTrack(track: Track) {
+        getTrackHistory().add(0, track)
+        getTrackHistory().toSet().toList()
+        if (getTrackHistory().size > 10) {
+            getTrackHistory().removeLast()
+        }
+        saveHistory(getTrackHistory())
     }
     companion object{
         const val HISTORY_PREFERENCES = "history_preferences"

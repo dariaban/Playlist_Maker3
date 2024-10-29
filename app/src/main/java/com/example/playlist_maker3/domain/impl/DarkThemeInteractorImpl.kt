@@ -7,19 +7,12 @@ import com.example.playlist_maker3.domain.api.DarkThemeInteractor
 
 
 class DarkThemeInteractorImpl(private val darkTheme: DarkTheme) : DarkThemeInteractor {
-private val currentState = darkTheme.getThemePreferences()
 
     override fun checkState(): Boolean{
-        return currentState
+        return darkTheme.getThemePreferences()
     }
-    override fun switchTheme(state: Boolean) {
-        if (state) {
-            AppCompatDelegate.setDefaultNightMode(MODE_NIGHT_YES)
-            darkTheme.saveTheme(true)
-        } else {
-            AppCompatDelegate.setDefaultNightMode(MODE_NIGHT_NO)
-            darkTheme.saveTheme(false)
-        }
+    override fun saveTheme(state: Boolean) {
+      darkTheme.saveTheme(state)
     }
 
 

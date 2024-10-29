@@ -43,12 +43,11 @@ class SearchActivity : Listener, AppCompatActivity() {
     private lateinit var historyAdapter: TrackAdapter
     private lateinit var cleanHistoryButton: MaterialButton
     private val handler = Handler(Looper.getMainLooper())
-    private val historyCreator = Creator
+    private val historyInteractor = Creator.provideSearhHistoryInteractor()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_search)
-        val historyInteractor = historyCreator.provideSearhHistoryInteractor(this)
         recyclerView = findViewById(R.id.recyclerView)
         historyRecyclerView = findViewById(R.id.recyclerViewHistory)
         networkError = findViewById(R.id.network_error)
@@ -150,9 +149,9 @@ class SearchActivity : Listener, AppCompatActivity() {
 
     override fun onClick(track: Track) {
         if (clickDebounce()) {
-            historyCreator.provideSearhHistoryInteractor(this).addTrack(track)
+            historyInteractor.addTrack(track)
             historyAdapter = TrackAdapter(
-                historyCreator.provideSearhHistoryInteractor(this).getHistory(), this
+                historyInteractor.getHistory(), this
             )
             historyAdapter.notifyDataSetChanged()
             val playerActivityIntent = Intent(this, PlayerActivity::class.java)
@@ -162,7 +161,6 @@ class SearchActivity : Listener, AppCompatActivity() {
     }
 
     private fun getSharedHistory() {
-       val historyInteractor = Creator.provideSearhHistoryInteractor(this)
         history = historyInteractor.getHistory()
          if (history.isNotEmpty()) {
             historyView.visibility = View.VISIBLE

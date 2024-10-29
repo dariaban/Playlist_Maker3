@@ -5,6 +5,7 @@ import android.content.Intent
 import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import androidx.appcompat.app.AppCompatDelegate
 import com.example.playlist_maker3.Creator
 import com.example.playlist_maker3.R
 import com.google.android.material.button.MaterialButton
@@ -13,11 +14,10 @@ import com.google.android.material.switchmaterial.SwitchMaterial
 
 class SettingsActivity : AppCompatActivity() {
     private lateinit var themeSwitcher: SwitchMaterial
-    private var darkThemeCreator = Creator
+    private var darkThemeInteractor = Creator.provideDarkThemeInteractor()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_settings)
-        val darkThemeInteractor = darkThemeCreator.provideDarkThemeInteractor(this)
         themeSwitcher = findViewById(R.id.button_switch)
         val backButton = findViewById<MaterialButton>(R.id.backButton)
         backButton.setOnClickListener {
@@ -55,10 +55,12 @@ class SettingsActivity : AppCompatActivity() {
 
         themeSwitcher.setOnCheckedChangeListener { _, checked ->
             if (checked) {
-                darkThemeInteractor.switchTheme(true)
+                darkThemeInteractor.saveTheme(true)
+                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
                 themeSwitcher.isChecked
             } else {
-                darkThemeInteractor.switchTheme(false)
+                darkThemeInteractor.saveTheme(false)
+                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
             }
 
         }

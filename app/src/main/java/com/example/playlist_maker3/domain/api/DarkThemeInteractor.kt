@@ -4,5 +4,5 @@ import com.example.playlist_maker3.data.repository.DarkTheme
 
 interface DarkThemeInteractor{
      fun checkState(): Boolean
-     fun switchTheme(state: Boolean)
+     fun saveTheme(state: Boolean)
 }

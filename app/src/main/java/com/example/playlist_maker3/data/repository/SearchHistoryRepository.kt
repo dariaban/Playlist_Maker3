@@ -6,4 +6,5 @@ interface SearchHistoryRepository{
     fun saveHistory(history: MutableList<Track>)
     fun getTrackHistory(): ArrayList<Track>
     fun clearHistory()
+    fun addTrack(track: Track)
 }
