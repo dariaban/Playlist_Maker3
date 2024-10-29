@@ -2,12 +2,11 @@ package com.example.playlist_maker3.ui.tracks
 
 import android.content.Context
 import android.content.Intent
-import android.content.SharedPreferences
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
-import android.os.Parcelable
+
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.View
@@ -25,7 +24,6 @@ import com.example.playlist_maker3.domain.models.Listener
 import com.example.playlist_maker3.R
 import com.example.playlist_maker3.domain.api.TracksInteractor
 import com.example.playlist_maker3.domain.models.Track
-import com.example.playlist_maker3.domain.use_case.HistoryInteractor
 import com.google.android.material.button.MaterialButton
 
 private var isClickAllowed = true
@@ -45,11 +43,12 @@ class SearchActivity : Listener, AppCompatActivity() {
     private lateinit var historyAdapter: TrackAdapter
     private lateinit var cleanHistoryButton: MaterialButton
     private val handler = Handler(Looper.getMainLooper())
-    private lateinit var historyInteractor: HistoryInteractor
+    private val historyCreator = Creator
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_search)
+        val historyInteractor = historyCreator.provideSearhHistoryInteractor(this)
         recyclerView = findViewById(R.id.recyclerView)
         historyRecyclerView = findViewById(R.id.recyclerViewHistory)
         networkError = findViewById(R.id.network_error)
@@ -151,9 +150,9 @@ class SearchActivity : Listener, AppCompatActivity() {
 
     override fun onClick(track: Track) {
         if (clickDebounce()) {
-            historyInteractor.addTrack(track)
+            historyCreator.provideSearhHistoryInteractor(this).addTrack(track)
             historyAdapter = TrackAdapter(
-                historyInteractor.getTrackHistory(), this
+                historyCreator.provideSearhHistoryInteractor(this).getHistory(), this
             )
             historyAdapter.notifyDataSetChanged()
             val playerActivityIntent = Intent(this, PlayerActivity::class.java)
@@ -163,8 +162,8 @@ class SearchActivity : Listener, AppCompatActivity() {
     }
 
     private fun getSharedHistory() {
-        historyInteractor = HistoryInteractor(this)
-        history = historyInteractor.getTrackHistory()
+       val historyInteractor = Creator.provideSearhHistoryInteractor(this)
+        history = historyInteractor.getHistory()
          if (history.isNotEmpty()) {
             historyView.visibility = View.VISIBLE
             historyAdapter = TrackAdapter(history, this)

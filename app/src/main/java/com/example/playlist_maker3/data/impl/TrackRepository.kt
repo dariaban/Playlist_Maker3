@@ -1,5 +1,4 @@
-package com.example.playlist_maker3.data.Impl
-
+package com.example.playlist_maker3.data.impl
 import com.example.playlist_maker3.data.dto.TrackSearchRequest
 import com.example.playlist_maker3.data.dto.TrackSearchResponse
 import com.example.playlist_maker3.data.network.NetworkClient

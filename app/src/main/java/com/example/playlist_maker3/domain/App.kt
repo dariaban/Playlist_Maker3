@@ -1,22 +1,22 @@
-package com.example.playlist_maker3.ui.tracks
+package com.example.playlist_maker3.domain
 import android.app.Application
 import androidx.appcompat.app.AppCompatDelegate
-import com.example.playlist_maker3.domain.use_case.DarkThemeInteractor
+import com.example.playlist_maker3.Creator
+import kotlin.properties.Delegates
 
 class App: Application() {
-    private var darkTheme : Boolean = false
+    private var darkTheme by Delegates.notNull<Boolean>()
     override fun onCreate() {
         super.onCreate()
-        val darkThemeInteractor = DarkThemeInteractor(this)
-        darkTheme = darkThemeInteractor.getThemePreferences()
+        val darkThemeInteractor = Creator.provideDarkThemeInteractor(this)
+        darkTheme = darkThemeInteractor.checkState()
         switchTheme(darkTheme)
     }
 
-    fun switchTheme(darkThemeEnabled: Boolean) {
+    private fun switchTheme(darkTheme: Boolean) {
         AppCompatDelegate.setDefaultNightMode(
-            if (darkThemeEnabled){
+            if (darkTheme){
                 AppCompatDelegate.MODE_NIGHT_YES
-
             } else {
                 AppCompatDelegate.MODE_NIGHT_NO
             }
