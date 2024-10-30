@@ -37,23 +37,13 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@drawable/edittext"
-            android:drawableStart="@drawable/search"
+            android:drawableLeft="@drawable/search"
             android:drawablePadding="8dp"
             android:drawableTint="?attr/colorOnSecondary"
             android:hint="@string/search"
             android:inputType="text"
             android:lines="1"
             android:paddingStart="12dp"
-
-            android:paddingEnd="12dp"
-            android:imeOptions="actionDone"
-            android:singleLine="true"
-
-            android:textColor="@color/black"
-
-            android:textColor="?attr/colorOnSecondary"
-
-
             android:textColorHint="?attr/colorOnSecondary"
             android:textCursorDrawable="@drawable/cursor_color"
             android:textSize="@dimen/text_size_16" />
@@ -64,119 +54,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="end"
             android:src="@drawable/clear1"
-
-            android:visibility="invisible" />
-
             android:visibility="gone" />
 
-
     </FrameLayout>
-    <ProgressBar
-        android:id="@+id/progress_circular"
-        android:layout_marginTop="140dp"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:indeterminateTint="@color/blue"
-        android:visibility="gone"/>
-
-    <LinearLayout
-        android:id="@+id/search_error"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:paddingTop="102dp"
-        android:visibility="gone"
-        >
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:src="@drawable/nothing_founded"
-            />
-        <TextView
-            style="@style/searchInfo"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:text="@string/search_error"
-            android:paddingTop="16dp"
-            android:paddingLeft="24dp"
-            android:paddingRight="24dp"
-            android:gravity="center"
-            />
-    </LinearLayout>
-<LinearLayout
-    android:id="@+id/network_error"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:paddingTop="102dp"
-    android:visibility="gone"
-    >
-    <ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:src="@drawable/network_error"
-        />
-    <TextView
-        style="@style/searchInfo"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/network_error"
-        android:paddingTop="16dp"
-        android:paddingLeft="24dp"
-        android:paddingRight="24dp"
-        android:gravity="center"
-        android:paddingBottom="24dp"/>
-
-    <com.google.android.material.button.MaterialButton
-        style="@style/searchButton"
-        android:id="@+id/refreshButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:gravity="center"
-        android:text="@string/refresh"
-        android:textAllCaps="false"
-        app:cornerRadius="54dp"
-        />
-</LinearLayout>
-    <LinearLayout
-        android:id = "@+id/historyView"
-        android:visibility="gone"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical">
-        <TextView
-            style="@style/searchInfo"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="42dp"
-            android:gravity="center"
-            android:text="@string/history"
-            android:textFontWeight="500"/>
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recyclerViewHistory"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginTop="18dp"
-            />
-        <com.google.android.material.button.MaterialButton
-            style="@style/searchButton"
-            android:id="@+id/clean_history"
-            android:layout_marginTop="24dp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:gravity="center"
-            android:text="@string/clean_history"
-            app:cornerRadius="54dp" />
-    </LinearLayout>
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recyclerView"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginTop="10dp" />
-
 </LinearLayout>

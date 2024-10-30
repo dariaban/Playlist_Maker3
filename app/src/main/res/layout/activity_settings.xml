@@ -8,7 +8,7 @@
     android:background="?attr/colorSecondary"
     android:orientation="vertical"
     android:theme="@style/Theme.MyApp"
-    tools:context=".SettingsActivity"
+    tools:context=".ui.tracks.SettingsActivity"
     tools:layout_editor_absoluteX="168dp"
     tools:layout_editor_absoluteY="0dp">
 

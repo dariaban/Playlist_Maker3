@@ -1,8 +1,8 @@
-package com.example.playlist_maker3
+package com.example.playlist_maker3.data.dto
 
 import java.io.Serializable
 
-data class Track(
+data class TracksDto(
     val trackId: Int,
     val artistName: String,
     val collectionName: String,
@@ -13,6 +13,4 @@ data class Track(
     val trackTimeMillis: Int,
     val country: String,
     val primaryGenreName: String
-): Serializable {
-
-}
+) : Serializable
