@@ -1,13 +1,11 @@
-package com.example.playlist_maker3.search.data
+package com.example.playlist_maker3.search.data.repository
 
 import android.content.Context
 import android.content.Context.MODE_PRIVATE
 import android.content.SharedPreferences
-import androidx.annotation.RequiresApi
 import com.example.playlist_maker3.search.domain.model.Track
 import com.example.playlist_maker3.search.domain.api.SearchHistoryRepository
 import com.google.gson.Gson
-import com.google.gson.reflect.TypeToken
 
 class SearchHistoryRepositoryImpl(context: Context) : SearchHistoryRepository {
     private val historySharedPreferences: SharedPreferences = context.getSharedPreferences(
@@ -28,7 +26,7 @@ class SearchHistoryRepositoryImpl(context: Context) : SearchHistoryRepository {
             .apply()
     }
 
-    override fun saveHistory(history: MutableList<Track>) {
+    override fun saveHistory(history: List<Track>) {
         val json = Gson().toJson(history)
         historySharedPreferences.edit().putString(HISTORY_PREFERENCES_KEY, json).apply()
     }

@@ -21,6 +21,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.playlist_maker3.databinding.ActivitySearchBinding
 import com.example.playlist_maker3.search.domain.model.Track
 import com.example.playlist_maker3.player.ui.PlayerActivity
+import com.example.playlist_maker3.search.domain.SearchState
 import com.google.android.material.button.MaterialButton
 
 class SearchActivity : AppCompatActivity() {
@@ -92,7 +93,7 @@ class SearchActivity : AppCompatActivity() {
             }
 
             override fun afterTextChanged(s: Editable?) {
-                hideKeyboard(inputEditText)
+
             }
         })
 
@@ -102,6 +103,8 @@ class SearchActivity : AppCompatActivity() {
 
         clearButton.setOnClickListener {
             inputEditText.text.clear()
+            tracksList.isVisible = false
+            binding.historyView.isVisible = false
         }
 
         clearHistoryButton.setOnClickListener {
@@ -116,9 +119,7 @@ class SearchActivity : AppCompatActivity() {
             render(it)
         }
         viewModel.loadSearchHistory()
-        viewModel.observeHistory().observe(this) {
-            showSearchHistory(it)
-        }
+
 
 
     }
@@ -129,7 +130,7 @@ class SearchActivity : AppCompatActivity() {
                 adapter.updateTracks(state.tracks)
                 showTrackList()
             }
-
+            is SearchState.HistoryList -> showSearchHistory(state.historyTracks)
             is SearchState.Empty -> showNotFoundPage()
             is SearchState.NetworkError -> showInternetErrorPage()
             is SearchState.Loading -> showLoadingPage()
@@ -191,11 +192,6 @@ class SearchActivity : AppCompatActivity() {
         progressBar.isVisible = false
         notFoundPage.isVisible = false
         internetErrorPage.isVisible = true
-    }
-
-    private fun hideKeyboard(view: View) {
-        val imm = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-        imm.hideSoftInputFromWindow(view.windowToken, 0)
     }
 
     override fun onDestroy() {

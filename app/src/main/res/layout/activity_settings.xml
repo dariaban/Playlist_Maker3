@@ -27,8 +27,9 @@
         android:textAllCaps="false"
         android:textFontWeight="500"
         android:textSize="@dimen/text_size_22"
+        app:iconPadding="24dp"
         app:icon="@drawable/arrow"
-        app:iconTint="@color/black" />
+        app:iconTint="?attr/colorPrimaryVariant" />
 
     <FrameLayout
         android:layout_width="match_parent"

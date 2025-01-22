@@ -18,7 +18,7 @@ import com.example.playlist_maker3.player.util.TimeFormatter
 
 class PlayerActivity : AppCompatActivity() {
     companion object {
-        const val TRACK = "TRACK"
+        private const val TRACK = "TRACK"
         fun startActivity(context: Context, track: Track) {
             val intent = Intent(context, PlayerActivity::class.java)
             intent.putExtra(TRACK, track)

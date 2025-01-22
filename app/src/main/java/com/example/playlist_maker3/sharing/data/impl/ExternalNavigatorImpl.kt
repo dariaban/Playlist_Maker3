@@ -27,11 +27,10 @@ class ExternalNavigatorImpl(private val context: Context) : ExternalNavigator {
     }
 
     override fun supportEmail() {
-        val supportIntent = Intent(Intent.ACTION_SEND)
-        supportIntent.setType("text/plain")
-        supportIntent.setPackage("com.google.android.gm")
+        val supportIntent = Intent(Intent.ACTION_SENDTO).apply {
+            data = Uri.parse("mailto:${context.getString(R.string.support_email)}")
+        }
         supportIntent.putExtra(Intent.EXTRA_TEXT, context.getString(R.string.support_text))
-        supportIntent.putExtra(Intent.EXTRA_EMAIL, context.getString(R.string.support_email))
         supportIntent.putExtra(Intent.EXTRA_SUBJECT, context.getString(R.string.support_subject))
         supportIntent.addFlags(FLAG_ACTIVITY_NEW_TASK)
         context.startActivity(supportIntent)

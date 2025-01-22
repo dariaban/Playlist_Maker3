@@ -4,7 +4,6 @@ import android.content.Context
 import android.content.Context.MODE_PRIVATE
 import android.content.SharedPreferences
 import com.example.playlist_maker3.App
-import com.example.playlist_maker3.settings.ui.DarkThemeSettings
 import com.example.playlist_maker3.settings.domain.repository.DarkTheme
 
 class DarkThemeImpl(context: Context, val app: App) : DarkTheme {
@@ -13,12 +12,12 @@ class DarkThemeImpl(context: Context, val app: App) : DarkTheme {
         MODE_PRIVATE
     )
 
-    override fun getThemeSettings(): DarkThemeSettings {
-        return DarkThemeSettings(themePreferences.getBoolean(PREFERENCES_KEY, false))
+    override fun getThemeSettings(): Boolean {
+        return themePreferences.getBoolean(PREFERENCES_KEY, false)
     }
 
-    override fun updateThemeSettings(settings: DarkThemeSettings) {
-        themePreferences.edit().putBoolean(PREFERENCES_KEY, settings.isDarkTheme).apply()
+    override fun updateThemeSettings(state: Boolean) {
+        themePreferences.edit().putBoolean(PREFERENCES_KEY, state).apply()
     }
 
     companion object {

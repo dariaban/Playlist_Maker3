@@ -1,7 +1,7 @@
-package com.example.playlist_maker3.search.network
+package com.example.playlist_maker3.search.data.network
 
-import com.example.playlist_maker3.search.dto.Response
-import com.example.playlist_maker3.search.dto.TrackSearchRequest
+import com.example.playlist_maker3.search.data.dto.Response
+import com.example.playlist_maker3.search.data.dto.TrackSearchRequest
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import java.io.IOException

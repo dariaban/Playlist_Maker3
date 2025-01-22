@@ -3,15 +3,15 @@ package com.example.playlist_maker3.creator
 
 import android.content.Context
 
-import com.example.playlist_maker3.search.data.TrackRepositoryImpl
-import com.example.playlist_maker3.search.network.RetrofitNetworkClient
+import com.example.playlist_maker3.search.data.repository.TrackRepositoryImpl
+import com.example.playlist_maker3.search.data.network.RetrofitNetworkClient
 import com.example.playlist_maker3.settings.domain.repository.DarkTheme
 import com.example.playlist_maker3.settings.data.DarkThemeImpl
 import com.example.playlist_maker3.search.domain.api.TrackRepository
 import com.example.playlist_maker3.search.domain.api.TracksInteractor
 import com.example.playlist_maker3.search.domain.impl.TrackInteractorImpl
 import com.example.playlist_maker3.search.domain.api.SearchHistoryRepository
-import com.example.playlist_maker3.search.data.SearchHistoryRepositoryImpl
+import com.example.playlist_maker3.search.data.repository.SearchHistoryRepositoryImpl
 import com.example.playlist_maker3.App
 import com.example.playlist_maker3.settings.domain.interactor.DarkThemeInteractor
 import com.example.playlist_maker3.player.domain.PlaybackControl

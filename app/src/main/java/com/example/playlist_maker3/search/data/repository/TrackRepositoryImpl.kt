@@ -1,8 +1,8 @@
-package com.example.playlist_maker3.search.data
+package com.example.playlist_maker3.search.data.repository
 
-import com.example.playlist_maker3.search.dto.TrackSearchRequest
-import com.example.playlist_maker3.search.dto.TrackSearchResponse
-import com.example.playlist_maker3.search.network.NetworkClient
+import com.example.playlist_maker3.search.data.dto.TrackSearchRequest
+import com.example.playlist_maker3.search.data.dto.TrackSearchResponse
+import com.example.playlist_maker3.search.data.network.NetworkClient
 import com.example.playlist_maker3.search.domain.api.TrackRepository
 import com.example.playlist_maker3.search.domain.model.Track
 import java.io.IOException

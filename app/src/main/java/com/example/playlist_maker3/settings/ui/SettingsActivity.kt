@@ -6,6 +6,7 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.lifecycle.ViewModelProvider
 import com.example.playlist_maker3.databinding.ActivitySettingsBinding
+import com.example.playlist_maker3.settings.domain.DarkThemeState
 
 
 class SettingsActivity : AppCompatActivity() {
@@ -20,19 +21,21 @@ class SettingsActivity : AppCompatActivity() {
             this, SettingsActivityViewModel.getViewModelFactory()
 
         )[SettingsActivityViewModel::class.java]
-
-        val currentTheme = viewModel.getTheme()
+        viewModel.getTheme()
+        viewModel.observeState().observe(this) { state ->
+            when (state) {
+                DarkThemeState.Dark -> binding.buttonSwitch.isChecked = true
+                DarkThemeState.Bright -> binding.buttonSwitch.isChecked = false
+            }
+        }
         binding.buttonSwitch.setOnCheckedChangeListener { _, checked ->
             if (checked) {
                 AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
-                viewModel.updateThemeSetting(true)
+                viewModel.makeItDark()
             } else {
                 AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
-                viewModel.updateThemeSetting(false)
+                viewModel.makeItBright()
             }
-        }
-        if (currentTheme) {
-            binding.buttonSwitch.isChecked = true
         }
 
         binding.backButton.setOnClickListener { finish() }

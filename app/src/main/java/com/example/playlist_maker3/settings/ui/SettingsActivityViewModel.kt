@@ -1,10 +1,13 @@
 package com.example.playlist_maker3.settings.ui
 
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
 import com.example.playlist_maker3.creator.Creator
+import com.example.playlist_maker3.settings.domain.DarkThemeState
 import com.example.playlist_maker3.settings.domain.interactor.DarkThemeInteractor
 import com.example.playlist_maker3.sharing.domain.ShareInteractor
 
@@ -28,17 +31,28 @@ class SettingsActivityViewModel(
             }
         }
     }
+    private val stateLiveData = MutableLiveData<DarkThemeState>()
+    fun observeState(): LiveData<DarkThemeState> = stateLiveData
 
 
-    fun updateThemeSetting(settings: Boolean) {
-        darkThemeInteractor.updateThemeSetting(DarkThemeSettings(settings))
+    private fun updateThemeSetting(settings: Boolean) {
+        darkThemeInteractor.updateThemeSetting(settings)
+    }
+    fun makeItDark(){
+        updateThemeSetting(true)
+    }
+    fun makeItBright(){
+        updateThemeSetting(false)
+        stateLiveData.postValue(DarkThemeState.Bright)
     }
 
-
-    fun getTheme(): Boolean {
-        val theme = darkThemeInteractor.getThemeSettings()
-        return theme.isDarkTheme
+    fun getTheme() {
+       val theme = darkThemeInteractor.getThemeSettings()
+        if(theme){
+            stateLiveData.postValue(DarkThemeState.Dark)
+        }
     }
+
 
     fun open() {
         shareInteractor.open()

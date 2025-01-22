@@ -4,7 +4,6 @@ import android.app.Application
 import android.content.Context
 import androidx.appcompat.app.AppCompatDelegate
 import com.example.playlist_maker3.creator.Creator
-import com.example.playlist_maker3.settings.ui.DarkThemeSettings
 
 class App : Application() {
     override fun onCreate() {
@@ -15,9 +14,9 @@ class App : Application() {
 
     }
 
-    private fun switchTheme(darkTheme: DarkThemeSettings) {
+    private fun switchTheme(darkTheme: Boolean) {
         AppCompatDelegate.setDefaultNightMode(
-            if (darkTheme.isDarkTheme) {
+            if (darkTheme) {
                 AppCompatDelegate.MODE_NIGHT_YES
             } else {
                 AppCompatDelegate.MODE_NIGHT_NO

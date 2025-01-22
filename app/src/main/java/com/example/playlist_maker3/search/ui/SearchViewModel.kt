@@ -2,7 +2,6 @@ package com.example.playlist_maker3.search.ui
 
 import android.os.Handler
 import android.os.Looper
-import android.widget.Toast
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -10,7 +9,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
 import com.example.playlist_maker3.creator.Creator
-import com.example.playlist_maker3.creator.Creator.context
+import com.example.playlist_maker3.search.domain.SearchState
 import com.example.playlist_maker3.search.domain.api.SearchHistoryInteractor
 import com.example.playlist_maker3.search.domain.api.TracksInteractor
 import com.example.playlist_maker3.search.domain.model.Track
@@ -24,9 +23,7 @@ class SearchViewModel(
     private val searchRunnable = Runnable { lastSearch?.let { searchTrack(it) } }
     private val tracks = ArrayList<Track>()
     private val stateLiveData = MutableLiveData<SearchState>()
-    private val historyLiveData = MutableLiveData<List<Track>>()
     private var lastSearch: String? = null
-    fun observeHistory(): LiveData<List<Track>> = historyLiveData
     fun observeState(): LiveData<SearchState> = stateLiveData
     fun searchDebounce(changedText: String) {
         lastSearch = changedText
@@ -63,7 +60,7 @@ class SearchViewModel(
         loadSearchHistory()
         searchHistoryInteractor.addTrack(track)
         val newHistory = searchHistoryInteractor.getHistory()
-        historyLiveData.postValue(newHistory)
+        renderState(SearchState.HistoryList(newHistory))
     }
 
 
@@ -73,7 +70,7 @@ class SearchViewModel(
 
     fun loadSearchHistory() {
         val historyTracks = searchHistoryInteractor.getHistory()
-        historyLiveData.postValue(historyTracks)
+        renderState(SearchState.HistoryList(historyTracks))
     }
 
     override fun onCleared() {

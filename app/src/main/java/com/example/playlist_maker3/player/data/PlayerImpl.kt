@@ -5,8 +5,8 @@ import com.example.playlist_maker3.player.domain.Player
 import com.example.playlist_maker3.search.domain.model.Track
 import com.example.playlist_maker3.player.ui.PlayerState
 
-class PlayerImpl : Player {
-    private var mediaPlayer = MediaPlayer()
+class PlayerImpl() : Player {
+    private val mediaPlayer = MediaPlayer()
     private var stateCallback: ((PlayerState) -> Unit)? = null
 
     override fun prepare(track: Track) {
