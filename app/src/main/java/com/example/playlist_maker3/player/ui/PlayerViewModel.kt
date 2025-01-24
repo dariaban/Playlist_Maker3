@@ -10,6 +10,7 @@ import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
 import com.example.playlist_maker3.creator.Creator
 import com.example.playlist_maker3.player.domain.PlaybackControl
+import com.example.playlist_maker3.player.domain.PlayerState
 import com.example.playlist_maker3.search.domain.model.Track
 
 class PlayerViewModel(private val playerInteractor: PlaybackControl) :

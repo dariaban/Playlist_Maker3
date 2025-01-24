@@ -3,7 +3,7 @@ package com.example.playlist_maker3.player.data
 import android.media.MediaPlayer
 import com.example.playlist_maker3.player.domain.Player
 import com.example.playlist_maker3.search.domain.model.Track
-import com.example.playlist_maker3.player.ui.PlayerState
+import com.example.playlist_maker3.player.domain.PlayerState
 
 class PlayerImpl() : Player {
     private val mediaPlayer = MediaPlayer()

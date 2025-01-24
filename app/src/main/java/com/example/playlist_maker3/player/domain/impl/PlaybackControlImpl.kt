@@ -4,7 +4,7 @@ import com.example.playlist_maker3.player.data.PlayerImpl
 import com.example.playlist_maker3.player.domain.PlaybackControl
 import com.example.playlist_maker3.player.util.TimeFormatter
 import com.example.playlist_maker3.search.domain.model.Track
-import com.example.playlist_maker3.player.ui.PlayerState
+import com.example.playlist_maker3.player.domain.PlayerState
 
 class PlaybackControlImpl(private val mediaPlayer: PlayerImpl) :
     PlaybackControl {

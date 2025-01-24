@@ -36,6 +36,7 @@
                     android:fontFamily="@font/ys_display_regular"
                     android:textColor="?attr/colorPrimaryVariant"
                     tools:text="TrackName"
+                    android:maxLines="1"
                     android:textSize="@dimen/text_size_16" />
 
                 <LinearLayout
@@ -48,23 +49,30 @@
                         android:id="@+id/artistName"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_weight="1"
                         android:layout_marginEnd="5dp"
-                        tools:text="ArtistName"
+                        android:ellipsize="end"
+                        android:maxLines="1"
+                        tools:text="Artist Name"
                         />
 
                     <ImageView
                         android:layout_width="3dp"
                         android:layout_height="3dp"
                         android:layout_gravity="center"
+                        android:layout_marginStart="4dp"
+                        android:layout_marginEnd="4dp"
                         android:src="@drawable/thumb"
                         app:tint="?attr/colorOnPrimary" />
 
                     <TextView
                         style="@style/trackInfo"
                         android:id="@+id/trackTime"
+                        android:layout_gravity="start|center_vertical"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="5dp"
+                        android:maxLines="1"
                         tools:text="TrackTime"
                         />
                 </LinearLayout>

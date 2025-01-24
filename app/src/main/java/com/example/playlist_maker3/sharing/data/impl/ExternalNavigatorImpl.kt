@@ -4,7 +4,9 @@ import android.content.Context
 import android.content.Intent
 import android.content.Intent.FLAG_ACTIVITY_NEW_TASK
 import android.net.Uri
+
 import com.example.playlist_maker3.R
+import com.example.playlist_maker3.player.ui.PlayerActivity.Companion.startActivity
 import com.example.playlist_maker3.sharing.data.ExternalNavigator
 
 
@@ -27,12 +29,18 @@ class ExternalNavigatorImpl(private val context: Context) : ExternalNavigator {
     }
 
     override fun supportEmail() {
-        val supportIntent = Intent(Intent.ACTION_SENDTO).apply {
-            data = Uri.parse("mailto:${context.getString(R.string.support_email)}")
-        }
+        val supportIntent = Intent(Intent.ACTION_SENDTO)
+        supportIntent.data = Uri.parse("mailto:")
+        supportIntent.putExtra(
+            Intent.EXTRA_EMAIL,
+            arrayOf(context.getString(R.string.support_email))
+        )
+        supportIntent.putExtra(
+            Intent.EXTRA_SUBJECT,
+            context.getString(R.string.support_subject)
+        )
+        supportIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
         supportIntent.putExtra(Intent.EXTRA_TEXT, context.getString(R.string.support_text))
-        supportIntent.putExtra(Intent.EXTRA_SUBJECT, context.getString(R.string.support_subject))
-        supportIntent.addFlags(FLAG_ACTIVITY_NEW_TASK)
         context.startActivity(supportIntent)
     }
 }
