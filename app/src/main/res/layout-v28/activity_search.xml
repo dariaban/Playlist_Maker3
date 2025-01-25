@@ -7,7 +7,7 @@
     android:background="?attr/colorSecondary"
     android:orientation="vertical"
     android:theme="@style/Theme.MyApp"
-    tools:context=".ui.tracks.SearchActivity"
+    tools:context=".search.ui.SearchActivity"
     tools:layout_editor_absoluteX="168dp"
     tools:layout_editor_absoluteY="0dp">
 
@@ -136,7 +136,7 @@
 </LinearLayout>
     <LinearLayout
         android:id = "@+id/historyView"
-        android:visibility="gone"
+        android:visibility="visible"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical">
@@ -167,7 +167,7 @@
     </LinearLayout>
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerView"
-
+        android:visibility="visible"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginTop="10dp" />
