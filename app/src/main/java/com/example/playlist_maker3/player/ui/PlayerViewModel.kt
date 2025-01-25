@@ -5,10 +5,6 @@ import android.os.Looper
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.viewmodel.initializer
-import androidx.lifecycle.viewmodel.viewModelFactory
-import com.example.playlist_maker3.creator.Creator
 import com.example.playlist_maker3.player.domain.PlaybackControl
 import com.example.playlist_maker3.player.domain.PlayerState
 import com.example.playlist_maker3.search.domain.model.Track
@@ -19,15 +15,6 @@ class PlayerViewModel(private val playerInteractor: PlaybackControl) :
     companion object {
         private const val DELAY_MILLIS = 25L
 
-        fun getViewModelFactory(): ViewModelProvider.Factory = viewModelFactory {
-            initializer {
-
-                val interactor = Creator.createPlayControl()
-                PlayerViewModel(
-                    interactor
-                )
-            }
-        }
     }
 
     init {

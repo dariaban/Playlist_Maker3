@@ -6,7 +6,7 @@ import android.content.SharedPreferences
 import com.example.playlist_maker3.App
 import com.example.playlist_maker3.settings.domain.repository.DarkTheme
 
-class DarkThemeImpl(context: Context, val app: App) : DarkTheme {
+class DarkThemeImpl(context: Context) : DarkTheme {
     private val themePreferences: SharedPreferences = context.getSharedPreferences(
         THEME_PREFERENCES,
         MODE_PRIVATE
