@@ -6,7 +6,6 @@ import android.os.Looper
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.View
-
 import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageView
@@ -14,7 +13,6 @@ import android.widget.LinearLayout
 import android.widget.ProgressBar
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
-import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.playlist_maker3.databinding.ActivitySearchBinding
@@ -22,16 +20,17 @@ import com.example.playlist_maker3.search.domain.model.Track
 import com.example.playlist_maker3.player.ui.PlayerActivity
 import com.example.playlist_maker3.search.domain.SearchState
 import com.google.android.material.button.MaterialButton
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class SearchActivity : AppCompatActivity() {
     companion object {
         private const val CLICK_DEBOUNCE_DELAY_MILLIS = 1000L
     }
 
-    private val adapter = TrackAdapter(emptyList()) { track: Track ->
+    private val adapter = TrackAdapter(emptyList()) {
         if (clickDebounce()) {
-            viewModel.addTrack(track)
-            PlayerActivity.startActivity(this, track)
+            viewModel.addTrack(it)
+            PlayerActivity.startActivity(this, it)
         }
     }
     private val historyAdapter = TrackAdapter(emptyList()) {
@@ -56,15 +55,12 @@ class SearchActivity : AppCompatActivity() {
     private var isClickAllowed = true
     private val handler = Handler(Looper.getMainLooper())
     private lateinit var binding: ActivitySearchBinding
-    private lateinit var viewModel: SearchViewModel
+    private val viewModel: SearchViewModel by viewModel()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivitySearchBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        viewModel = ViewModelProvider(
-            this, SearchViewModel.getViewModelFactory()
-        )[SearchViewModel::class.java]
         inputEditText = binding.searchBar
         tracksList = binding.recyclerView
         progressBar = binding.progressCircular

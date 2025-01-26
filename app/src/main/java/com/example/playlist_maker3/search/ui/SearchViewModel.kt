@@ -8,7 +8,6 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
-import com.example.playlist_maker3.creator.Creator
 import com.example.playlist_maker3.search.domain.SearchState
 import com.example.playlist_maker3.search.domain.api.SearchHistoryInteractor
 import com.example.playlist_maker3.search.domain.api.TracksInteractor
@@ -82,14 +81,6 @@ class SearchViewModel(
         private const val SEARCH_DEBOUNCE_DELAY = 2000L
         private val SEARCH_REQUEST_TOKEN = Any()
 
-        fun getViewModelFactory(): ViewModelProvider.Factory = viewModelFactory {
-            initializer {
-                SearchViewModel(
-                    searchHistoryInteractor = Creator.provideSearchHistoryInteractor(),
-                    trackInteractor = Creator.provideTrackInteractor()
-                )
-            }
-        }
     }
 }
 

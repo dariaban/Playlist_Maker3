@@ -9,13 +9,13 @@ import android.os.Looper
 import androidx.annotation.RequiresApi
 import com.example.playlist_maker3.databinding.ActivityPlayerBinding
 import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.ViewModelProvider
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.example.playlist_maker3.R
 import com.example.playlist_maker3.player.domain.PlayerState
 import com.example.playlist_maker3.search.domain.model.Track
 import com.example.playlist_maker3.player.util.TimeFormatter
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class PlayerActivity : AppCompatActivity() {
     companion object {
@@ -28,8 +28,8 @@ class PlayerActivity : AppCompatActivity() {
     }
 
     private lateinit var binding: ActivityPlayerBinding
-    private var mainThreadHandler: Handler? = null
-    private lateinit var viewModel: PlayerViewModel
+    private  val viewModel: PlayerViewModel by viewModel()
+    private lateinit var mainThreadHandler: Handler
 
 
     @RequiresApi(Build.VERSION_CODES.TIRAMISU)
@@ -40,10 +40,6 @@ class PlayerActivity : AppCompatActivity() {
         setContentView(binding.root)
         val track: Track = intent.getParcelableExtra(TRACK, Track::class.java)!!
 
-        viewModel = ViewModelProvider(
-            this,
-            PlayerViewModel.getViewModelFactory()
-        )[PlayerViewModel::class.java]
         mainThreadHandler = Handler(Looper.getMainLooper())
         binding.playButton.setOnClickListener { viewModel.playbackControl() }
 
