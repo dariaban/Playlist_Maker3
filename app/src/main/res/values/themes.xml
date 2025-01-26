@@ -11,6 +11,8 @@
         <!-- Secondary brand color. -->
         <item name="colorSecondary">@color/white</item>
         <item name="colorSecondaryVariant">@color/lightGray</item>
+        <item name="colorOnSecondaryFixedVariant">@color/jetBlack</item>
+
         <!-- Status bar color. -->
     </style>
 

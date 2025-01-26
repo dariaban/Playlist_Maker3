@@ -6,5 +6,6 @@
     <color name="black">#1A1B22</color>
     <color name="gray">#AEAFB4</color>
     <color name="lightGray">#E6E8EB</color>
+    <color name="jetBlack">#FF000000</color>
     <color name="lightIcon">#99A2AD</color>
 </resources>
