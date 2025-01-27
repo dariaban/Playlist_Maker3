@@ -6,12 +6,12 @@
     android:layout_height="match_parent"
     android:background="?attr/colorSecondary">
 
-    <Toolbar
-        android:backgroundTint="?attr/colorSecondary"
+    <androidx.appcompat.widget.Toolbar
         android:id="@+id/backButton"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:navigationIcon = "@drawable/arrow"
+        android:backgroundTint="?attr/colorSecondary"
+        app:navigationIcon="@drawable/arrow"
         app:layout_constraintBottom_toTopOf="@id/image"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
@@ -153,7 +153,8 @@
 
     <TextView
         android:id="@+id/albumName"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp
+"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginTop="15dp"
@@ -166,16 +167,20 @@
 
     <TextView
         android:id="@+id/albumNameData"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="15dp"
         android:layout_marginEnd="16dp"
         android:fontFamily="@font/ys_display_regular"
         android:textColor="?attr/colorPrimaryVariant"
         android:textSize="13sp"
+        android:maxLines="1"
+        android:ellipsize="end"
+        android:gravity="end"
+        app:layout_constraintStart_toEndOf="@+id/albumName"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/trackLengthTime"
-        tools:text="albumNameData" />
+        tools:text="Очень длинное название альбома, которое поломает всю разметку" />
 
     <TextView
         android:id="@+id/trackYear"
@@ -187,6 +192,7 @@
         android:text="@string/trackYear"
         android:textColor="@color/gray"
         android:textSize="13sp"
+
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/albumName" />
 

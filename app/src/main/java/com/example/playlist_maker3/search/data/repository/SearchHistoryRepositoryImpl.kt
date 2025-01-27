@@ -1,23 +1,17 @@
 package com.example.playlist_maker3.search.data.repository
 
-import android.content.Context
 import android.content.Context.MODE_PRIVATE
 import android.content.SharedPreferences
-import com.example.playlist_maker3.search.domain.model.Track
 import com.example.playlist_maker3.search.domain.api.SearchHistoryRepository
+import com.example.playlist_maker3.search.domain.model.Track
 import com.google.gson.Gson
 
-class SearchHistoryRepositoryImpl(context: Context) : SearchHistoryRepository {
-    private val historySharedPreferences: SharedPreferences = context.getSharedPreferences(
-        HISTORY_PREFERENCES,
-        MODE_PRIVATE
-    )
+class SearchHistoryRepositoryImpl(private val historySharedPreferences: SharedPreferences) : SearchHistoryRepository {
 
-    override fun getTrackHistory(): ArrayList<Track> {
+    override fun getTrackHistory(): List<Track> {
         val json = historySharedPreferences.getString(HISTORY_PREFERENCES_KEY, null)
             ?: return arrayListOf()
         return ArrayList(Gson().fromJson(json, Array<Track>::class.java).toList())
-
     }
 
     override fun clearHistory() {

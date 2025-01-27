@@ -1,7 +1,7 @@
 package com.example.playlist_maker3.settings.domain.impl
 
-import com.example.playlist_maker3.settings.domain.repository.DarkTheme
 import com.example.playlist_maker3.settings.domain.interactor.DarkThemeInteractor
+import com.example.playlist_maker3.settings.domain.repository.DarkTheme
 
 
 class DarkThemeInteractorImpl(private val darkTheme: DarkTheme) : DarkThemeInteractor {

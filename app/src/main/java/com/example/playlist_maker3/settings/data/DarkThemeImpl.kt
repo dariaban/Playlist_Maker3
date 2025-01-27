@@ -3,7 +3,6 @@ package com.example.playlist_maker3.settings.data
 import android.content.Context
 import android.content.Context.MODE_PRIVATE
 import android.content.SharedPreferences
-import com.example.playlist_maker3.App
 import com.example.playlist_maker3.settings.domain.repository.DarkTheme
 
 class DarkThemeImpl(context: Context) : DarkTheme {

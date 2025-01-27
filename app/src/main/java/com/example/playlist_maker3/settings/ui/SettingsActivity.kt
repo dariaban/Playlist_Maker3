@@ -1,8 +1,8 @@
 package com.example.playlist_maker3.settings.ui
 
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
 import com.example.playlist_maker3.databinding.ActivitySettingsBinding
 import com.example.playlist_maker3.settings.domain.DarkThemeState
