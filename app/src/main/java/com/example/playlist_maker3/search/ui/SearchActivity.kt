@@ -1,5 +1,6 @@
 package com.example.playlist_maker3.search.ui;
 
+import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
@@ -16,9 +17,9 @@ import androidx.core.view.isVisible
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.playlist_maker3.databinding.ActivitySearchBinding
-import com.example.playlist_maker3.search.domain.model.Track
 import com.example.playlist_maker3.player.ui.PlayerActivity
 import com.example.playlist_maker3.search.domain.SearchState
+import com.example.playlist_maker3.search.domain.model.Track
 import com.google.android.material.button.MaterialButton
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
@@ -27,19 +28,24 @@ class SearchActivity : AppCompatActivity() {
         private const val CLICK_DEBOUNCE_DELAY_MILLIS = 1000L
     }
 
-    private val adapter = TrackAdapter(emptyList()) {
+    private val tracks = mutableListOf<Track>()
+    private val adapter = TrackAdapter(tracks) {
+        viewModel.addTrack(it)
         if (clickDebounce()) {
             viewModel.addTrack(it)
-            PlayerActivity.startActivity(this, it)
+            val intent = Intent (this,PlayerActivity::class.java )
+            intent.putExtra(PlayerActivity.TRACK, it)
+            startActivity(intent)
         }
     }
     private val historyAdapter = TrackAdapter(emptyList()) {
         if (clickDebounce()) {
             viewModel.addTrack(it)
-            PlayerActivity.startActivity(this, it)
+            val intent = Intent (this,PlayerActivity::class.java )
+            intent.putExtra(PlayerActivity.TRACK, it)
+            startActivity(intent)
         }
     }
-
 
     private lateinit var inputEditText: EditText
     private lateinit var tracksList: RecyclerView
@@ -107,7 +113,7 @@ class SearchActivity : AppCompatActivity() {
             binding.historyView.isVisible = false
         }
         refreshButton.setOnClickListener {
-            showTrackList()
+            viewModel.searchDebounce(inputEditText.text.toString())
         }
 
         viewModel.observeState().observe(this) {

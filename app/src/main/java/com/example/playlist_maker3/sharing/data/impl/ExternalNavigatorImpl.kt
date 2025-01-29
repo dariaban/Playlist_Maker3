@@ -6,7 +6,7 @@ import android.content.Intent.FLAG_ACTIVITY_NEW_TASK
 import android.net.Uri
 
 import com.example.playlist_maker3.R
-import com.example.playlist_maker3.player.ui.PlayerActivity.Companion.startActivity
+
 import com.example.playlist_maker3.sharing.data.ExternalNavigator
 
 

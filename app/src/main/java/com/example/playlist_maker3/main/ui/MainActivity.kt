@@ -3,9 +3,9 @@ import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.example.playlist_maker3.R
+import com.example.playlist_maker3.media.ui.MediaActivity
 import com.example.playlist_maker3.search.ui.SearchActivity
 import com.example.playlist_maker3.settings.ui.SettingsActivity
-import com.example.playlist_maker3.media.ui.MediaActivity
 import com.google.android.material.button.MaterialButton
 
 class MainActivity : AppCompatActivity() {
@@ -13,20 +13,20 @@ class MainActivity : AppCompatActivity() {
 
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        val button_search = findViewById<MaterialButton>(R.id.button_search)
-        button_search.setOnClickListener {
-            val displayIntent_search = Intent(this, SearchActivity::class.java)
-            startActivity(displayIntent_search)
+        val buttonSearch = findViewById<MaterialButton>(R.id.button_search)
+        buttonSearch.setOnClickListener {
+            val displayIntentSearch = Intent(this, SearchActivity::class.java)
+            startActivity(displayIntentSearch)
         }
-        val button_media = findViewById<MaterialButton>(R.id.button_media)
-        button_media.setOnClickListener {
-            val displayIntent_media = Intent(this, MediaActivity::class.java)
-            startActivity(displayIntent_media)
+        val buttonMedia = findViewById<MaterialButton>(R.id.button_media)
+        buttonMedia.setOnClickListener {
+            val displayIntentMedia = Intent(this, MediaActivity::class.java)
+            startActivity(displayIntentMedia)
         }
-        val button_settings = findViewById<MaterialButton>(R.id.button_settings)
-        button_settings.setOnClickListener {
-            val displayIntent_settings = Intent(this, SettingsActivity::class.java)
-            startActivity(displayIntent_settings)
+        val buttonSettings = findViewById<MaterialButton>(R.id.button_settings)
+        buttonSettings.setOnClickListener {
+            val displayIntentSettings = Intent(this, SettingsActivity::class.java)
+            startActivity(displayIntentSettings)
         }
     }
 }
