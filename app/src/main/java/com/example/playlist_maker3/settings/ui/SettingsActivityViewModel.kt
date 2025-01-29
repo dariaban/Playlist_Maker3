@@ -21,6 +21,7 @@ class SettingsActivityViewModel(
     }
     fun makeItDark(){
         updateThemeSetting(true)
+        stateLiveData.postValue(DarkThemeState.Dark)
     }
     fun makeItBright(){
         updateThemeSetting(false)

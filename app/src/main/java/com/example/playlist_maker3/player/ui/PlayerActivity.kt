@@ -4,6 +4,7 @@ import android.os.Build
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
+import android.os.Parcelable
 import android.text.TextUtils
 import android.widget.Toast
 import androidx.annotation.RequiresApi
@@ -17,6 +18,7 @@ import com.example.playlist_maker3.player.domain.PlayerState
 import com.example.playlist_maker3.player.util.TimeFormatter
 import com.example.playlist_maker3.search.domain.model.Track
 import org.koin.androidx.viewmodel.ext.android.viewModel
+import java.io.Serializable
 
 class PlayerActivity : AppCompatActivity() {
     companion object {
@@ -25,11 +27,9 @@ class PlayerActivity : AppCompatActivity() {
     }
 
     private lateinit var binding: ActivityPlayerBinding
-    private  val viewModel: PlayerViewModel by viewModel()
+    private val viewModel: PlayerViewModel by viewModel()
     private lateinit var mainThreadHandler: Handler
-    private lateinit var track : Track
-
-
+    private lateinit var track: Track
 
 
     @RequiresApi(Build.VERSION_CODES.TIRAMISU)
@@ -47,8 +47,8 @@ class PlayerActivity : AppCompatActivity() {
         viewModel.observeProgressTimeState().observe(this) {
             progressTimeViewUpdate(it)
         }
-        track =
-            intent.getParcelableExtra(TRACK, Track::class.java)!!
+        intent.getSerializableExtra(TRACK, Track::class.java)?.let { track = it }
+
 
         bind(track)
 
@@ -57,8 +57,8 @@ class PlayerActivity : AppCompatActivity() {
 
         viewModel.prepare(track)
     }
-    private fun bind(track: Track){
-        if(!track.trackName.isNullOrEmpty()){
+
+    private fun bind(track: Track) {
         binding.trackName.text = track.trackName
         binding.artistName.text = track.artistName
         binding.albumNameData.text = track.collectionName
@@ -72,9 +72,8 @@ class PlayerActivity : AppCompatActivity() {
             .placeholder(R.drawable.placeholder)
             .centerCrop()
             .transform(RoundedCorners(10))
-            .into(binding.image)} else {
-                Toast.makeText(this, "Данные пустые", Toast.LENGTH_LONG).show()
-            }}
+            .into(binding.image)
+    }
 
     private fun render(state: PlayerState) {
         when (state) {
