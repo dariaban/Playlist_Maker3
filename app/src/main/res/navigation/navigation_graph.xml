@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    app:startDestination="@id/libraryFragment">
+
+    <fragment
+        android:id="@+id/libraryFragment"
+        android:name="com.example.playlist_maker3.media.ui.MediaFragment"
+        android:label="Library"
+        tools:layout="@layout/fragment_media" />
+
+    <fragment
+        android:id="@+id/searchFragment"
+        android:name="com.example.playlist_maker3.search.ui.SearchFragment"
+        android:label="Search"
+        tools:layout="@layout/fragment_search" />
+
+    <fragment
+        android:id="@+id/settingsFragment"
+        android:name="com.example.playlist_maker3.settings.ui.FragmentSettings"
+        android:label="Settings"
+        tools:layout="@layout/fragment_settings" />
+</navigation>
