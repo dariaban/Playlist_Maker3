@@ -4,20 +4,26 @@ import com.example.playlist_maker3.search.data.dto.TrackSearchRequest
 import com.example.playlist_maker3.search.data.dto.TrackSearchResponse
 import com.example.playlist_maker3.search.data.mapper.TrackMapper
 import com.example.playlist_maker3.search.data.network.NetworkClient
+import com.example.playlist_maker3.search.domain.api.Resource
 import com.example.playlist_maker3.search.domain.api.TrackRepository
 import com.example.playlist_maker3.search.domain.model.Track
-import java.io.IOException
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flow
 
-class TrackRepositoryImpl(private val networkClient: NetworkClient, private val trackMapper: TrackMapper) : TrackRepository {
 
-    override fun searchTracks(expression: String): List<Track> {
+class TrackRepositoryImpl(
+    private val networkClient: NetworkClient,
+    private val trackMapper: TrackMapper
+) : TrackRepository {
+
+    override suspend fun searchTracks(expression: String): Flow<Resource<List<Track>>> = flow {
         val response = networkClient.doRequest(TrackSearchRequest(expression))
-        return if (response.resultCode == 200) {
-            (response as TrackSearchResponse).results.map {
-               trackMapper.trackMap(it)
-            }
+        if (response.resultCode == 200) {
+            emit(Resource.Success((response as TrackSearchResponse).results.map {
+                trackMapper.trackMap(it)
+            }))
         } else {
-            throw IOException("Network error with code: ${response.resultCode}")
+            emit(Resource.Error("Network error with code: ${response.resultCode}"))
         }
     }
 }

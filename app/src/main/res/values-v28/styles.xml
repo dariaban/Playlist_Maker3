@@ -38,10 +38,11 @@
         <item name="textAllCaps">false</item>
     </style>
 
-    <style name="tabTextAppearance" parent="TextAppearance.Design.Tab">
+    <style name="tabTextAppearance" parent="@android:style/TextAppearance.Widget.TabWidget">
         <item name="tabTextAppearance">@android:style/TextAppearance.Widget.TabWidget</item>
         <item name="android:textFontWeight">500</item>
         <item name="fontFamily">@font/ys_display_medium</item>
+        <item name="android:textAllCaps">false</item>
         <item name="android:textSize">@dimen/text_size_14</item>
         <item name="android:textColor">?attr/colorPrimaryVariant</item>
     </style>

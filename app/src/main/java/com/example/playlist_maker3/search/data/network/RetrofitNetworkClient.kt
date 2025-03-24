@@ -2,9 +2,12 @@ package com.example.playlist_maker3.search.data.network
 
 import com.example.playlist_maker3.search.data.dto.Response
 import com.example.playlist_maker3.search.data.dto.TrackSearchRequest
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import java.io.IOException
+
 
 class RetrofitNetworkClient : NetworkClient {
     private val itunesApiBaseUrl = "https://itunes.apple.com/"
@@ -12,12 +15,12 @@ class RetrofitNetworkClient : NetworkClient {
         .addConverterFactory(GsonConverterFactory.create()).build()
     private val itunesApi = retrofit.create(ItunesApiService::class.java)
 
-    override fun doRequest(dto: Any): Response {
+    override suspend fun doRequest(dto: Any): Response {
+
         return try {
             if (dto is TrackSearchRequest) {
-                val resp = itunesApi.search(dto.expression).execute()
-                val body = resp.body() ?: Response(200)
-                return body.apply { resultCode = resp.code() }
+                val resp = itunesApi.search(dto.expression)
+                return withContext(Dispatchers.IO) { resp.apply { resultCode = 200 } }
             } else {
                 return Response(400)
             }
