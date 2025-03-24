@@ -13,6 +13,5 @@ data class Track(
     val trackTimeMillis: Int,
     val country: String,
     val primaryGenreName: String
-) : Serializable {
+) : Serializable
 
-}

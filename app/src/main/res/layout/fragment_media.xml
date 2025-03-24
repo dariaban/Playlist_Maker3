@@ -3,15 +3,14 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:background="?attr/colorSecondary"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:background="?attr/colorSecondary">
 
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/backButton"
         android:layout_width="match_parent"
         android:layout_height="52dp"
         app:background="@android:color/transparent"
-        app:navigationIcon="@drawable/arrow"
         app:contentInsetStartWithNavigation="0dp"
         app:title="@string/media"
         app:titleTextColor="?attr/colorPrimaryVariant"
@@ -23,6 +22,7 @@
         style="@style/tabTextAppearance"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        app:tabTextAppearance="@style/tabTextAppearance"
         android:background="?attr/colorSecondary"
         app:tabIndicatorColor="?attr/colorPrimaryVariant"
         app:tabTextColor="?attr/colorPrimaryVariant"

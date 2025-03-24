@@ -13,7 +13,7 @@
         android:layout_height="wrap_content"
         android:text="@string/new_playlist"
         android:layout_gravity="center"
-        android:backgroundTint="@color/white"
+        android:backgroundTint="?attr/colorPrimaryVariant"
         app:cornerRadius="54dp"
         android:textSize="@dimen/text_size_14"
         android:textFontWeight="500"

@@ -25,14 +25,6 @@
         <item name="android:backgroundTint">@color/white</item>
     </style>
 
-    <style name="MySwitchStyle" parent="Widget.AppCompat.CompoundButton.Switch">
-        <item name="useMaterialThemeColors">false</item>
-        <item name="trackTint">@animator/selector_switch_track</item>
-        <item name="thumbTint">@animator/selector_switch_thumb</item>
-        <item name="android:width">32dp</item>
-        <item name="height">18dp</item>
-    </style>
-
     <style name="topButton" parent="Widget.MaterialComponents.Button.UnelevatedButton">
         <item name="android:layout_margin">4dp</item>
         <item name="fontFamily">@font/ys_display_medium</item>
@@ -62,11 +54,4 @@
     <style name="playButtons" parent="Widget.MaterialComponents.Button.UnelevatedButton">
         <item name="android:theme">@style/Theme.MyApp</item>
     </style>
-    <style name="tabTextAppearance" parent="TextAppearance.Design.Tab">
-        <item name="tabTextAppearance">@android:style/TextAppearance.Widget.TabWidget</item>
-        <item name="fontFamily">@font/ys_display_medium</item>
-        <item name="android:textSize">@dimen/text_size_14</item>
-        <item name="android:textColor">?attr/colorPrimaryVariant</item>
-    </style>
-
 </resources>
