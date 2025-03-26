@@ -2,8 +2,6 @@ package com.example.playlist_maker3.search.ui
 
 import android.content.Intent
 import android.os.Bundle
-import android.os.Handler
-import android.os.Looper
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.LayoutInflater
@@ -11,19 +9,22 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.playlist_maker3.databinding.FragmentSearchBinding
 import com.example.playlist_maker3.player.ui.PlayerActivity
 import com.example.playlist_maker3.search.domain.SearchState
 import com.example.playlist_maker3.search.domain.model.Track
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class SearchFragment : Fragment() {
 
     private lateinit var binding: FragmentSearchBinding
+    private var input: String? = null
     private val viewModel: SearchViewModel by viewModel()
-
     private val tracks = mutableListOf<Track>()
     private val adapter = TrackAdapter(tracks) {
         viewModel.addTrack(it)
@@ -43,7 +44,6 @@ class SearchFragment : Fragment() {
         }
     }
 
-    private val handler = Handler(Looper.getMainLooper())
     private var isClickAllowed = true
 
     override fun onCreateView(
@@ -52,6 +52,7 @@ class SearchFragment : Fragment() {
         binding = FragmentSearchBinding.inflate(inflater, container, false)
         return binding.root
     }
+
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -80,17 +81,25 @@ class SearchFragment : Fragment() {
     private fun setupListeners() {
        viewModel.loadSearchHistory()
 
+
+
         binding.searchBar.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
 
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-                viewModel.searchDebounce(s?.toString() ?: "")
+                viewModel.searchDebounce(s?.toString()?: "")
                 binding.clearIcon.isVisible = !s.isNullOrEmpty()
                 binding.searchHistory.isVisible = false
             }
 
-            override fun afterTextChanged(s: Editable?) {}
+            override fun afterTextChanged(s: Editable?) {
+
+            }
+
         })
+        binding.refreshButton.setOnClickListener {
+            viewModel.searchDebounce(input?:"")
+        }
 
         binding.clearIcon.setOnClickListener {
             binding.searchBar.text.clear()
@@ -100,7 +109,9 @@ class SearchFragment : Fragment() {
             viewModel.clearHistory()
             binding.searchHistory.isVisible = false
         }
+
     }
+
 
     private fun render(state: SearchState) {
         when (state) {
@@ -164,7 +175,10 @@ class SearchFragment : Fragment() {
         val current = isClickAllowed
         if (isClickAllowed) {
             isClickAllowed = false
-            handler.postDelayed({ isClickAllowed = true }, CLICK_DEBOUNCE_DELAY)
+            viewLifecycleOwner.lifecycleScope.launch{
+                delay(CLICK_DEBOUNCE_DELAY)
+                isClickAllowed = true
+            }
         }
         return current
     }

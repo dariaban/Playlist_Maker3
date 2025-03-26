@@ -4,12 +4,8 @@ import android.os.Build
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
-import android.os.Parcelable
-import android.text.TextUtils
-import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
-import androidx.compose.ui.unit.TextUnit
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.example.playlist_maker3.R
@@ -17,8 +13,9 @@ import com.example.playlist_maker3.databinding.ActivityPlayerBinding
 import com.example.playlist_maker3.player.domain.PlayerState
 import com.example.playlist_maker3.player.util.TimeFormatter
 import com.example.playlist_maker3.search.domain.model.Track
+import kotlinx.coroutines.Job
 import org.koin.androidx.viewmodel.ext.android.viewModel
-import java.io.Serializable
+
 
 class PlayerActivity : AppCompatActivity() {
     companion object {
@@ -28,7 +25,7 @@ class PlayerActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityPlayerBinding
     private val viewModel: PlayerViewModel by viewModel()
-    private lateinit var mainThreadHandler: Handler
+
     private lateinit var track: Track
 
 
@@ -38,7 +35,7 @@ class PlayerActivity : AppCompatActivity() {
         setContentView(R.layout.activity_player)
         binding = ActivityPlayerBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        mainThreadHandler = Handler(Looper.getMainLooper())
+
         binding.playButton.setOnClickListener { viewModel.playbackControl() }
 
         viewModel.observeState().observe(this) {
