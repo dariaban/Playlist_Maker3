@@ -2,6 +2,8 @@ package com.example.playlist_maker3.di
 
 import android.content.Context.MODE_PRIVATE
 import android.media.MediaPlayer
+import androidx.room.Room
+import com.example.playlist_maker3.media.data.db.AppDatabase
 import com.example.playlist_maker3.player.data.PlayerImpl
 import com.example.playlist_maker3.search.data.network.ItunesApiService
 import com.example.playlist_maker3.search.data.network.NetworkClient
@@ -48,4 +50,8 @@ val dataModule = module {
     single<DarkTheme> { DarkThemeImpl(context = get()) }
 
     factory<ExternalNavigator> { ExternalNavigatorImpl(context = get()) }
+
+    single {
+        Room.databaseBuilder(androidContext(), AppDatabase::class.java, "database.db").build()
+    }
 }

@@ -41,6 +41,9 @@ class PlayerActivity : AppCompatActivity() {
         viewModel.observeState().observe(this) {
             render(it)
         }
+        viewModel.observeFavoriteState().observe(this) {
+            favoriteRender(it)}
+
         viewModel.observeProgressTimeState().observe(this) {
             progressTimeViewUpdate(it)
         }
@@ -49,8 +52,9 @@ class PlayerActivity : AppCompatActivity() {
 
         bind(track)
 
-
         binding.backButton.setOnClickListener { finish() }
+
+        binding.likeButton.setOnClickListener { viewModel.favoriteClicked(track) }
 
         viewModel.prepare(track)
     }
@@ -70,6 +74,12 @@ class PlayerActivity : AppCompatActivity() {
             .centerCrop()
             .transform(RoundedCorners(10))
             .into(binding.image)
+    }
+
+    private fun favoriteRender(favoriteChecked: Boolean) {
+        if (favoriteChecked)
+            binding.likeButton.setImageResource(R.drawable.liked_button)
+        else binding.likeButton.setImageResource(R.drawable.like_button)
     }
 
     private fun render(state: PlayerState) {
