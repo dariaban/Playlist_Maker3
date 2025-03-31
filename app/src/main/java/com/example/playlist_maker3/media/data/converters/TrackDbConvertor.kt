@@ -10,16 +10,17 @@ class TrackDbConvertor {
             track.trackId,
             track.artistName,
             track.collectionName,
-            track.previewUrl,
+            track.previewUrl?:"",
             track.artworkUrl100,
             track.trackName,
-            track.releaseDate,
+            track.releaseDate?:"",
             track.trackTimeMillis,
             track.country,
-            track.primaryGenreName
+            track.primaryGenreName,
+            track.saveDate
         )
     }
-    fun map(track: TrackEntity): Track{
+    fun mapToTrack(track: TrackEntity): Track{
         return Track(
             track.trackId,
             track.artistName,
@@ -30,7 +31,8 @@ class TrackDbConvertor {
             track.releaseDate,
             track.trackTimeMillis,
             track.country,
-            track.primaryGenreName
+            track.primaryGenreName,
+            track.saveDate
         )
     }
 }

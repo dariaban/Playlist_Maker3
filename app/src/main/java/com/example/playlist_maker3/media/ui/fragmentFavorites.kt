@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.annotation.RequiresApi
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.playlist_maker3.databinding.FragmentFavoritesBinding
@@ -33,43 +34,31 @@ class FavoritesFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
         binding.recyclerView.layoutManager = LinearLayoutManager(requireContext())
-
-        trackAdapter = TrackAdapter(emptyList()) { track -> onTrackClick(track) }
+        trackAdapter = TrackAdapter(tracks) { track -> onTrackClick(track)}
         binding.recyclerView.adapter = trackAdapter
         viewModel.observeState().observe(viewLifecycleOwner) {
             render(it)
         }
     }
 
-    override fun onStart() {
-        super.onStart()
-        viewModel.fillData()
-    }
 
     private fun render(state: FavoriteState) {
         when (state) {
-            is FavoriteState.Content -> showContent(state.tracks)
+            is FavoriteState.Content -> {
+                showContent(state.tracks)
+            }
+
             is FavoriteState.Empty -> showEmpty()
-            FavoriteState.Loading -> showLoading(tracks)
         }
     }
 
-    private fun showLoading(tracks: List<Track>) {
-        binding.recyclerView.visibility = View.VISIBLE
-        binding.nothingFounded.visibility = View.GONE
-        binding.empty.visibility = View.GONE
-        trackAdapter.updateTracks(tracks)
-    }
 
     private fun showContent(trackList: List<Track>) {
         binding.nothingFounded.visibility = View.GONE
         binding.empty.visibility = View.GONE
         binding.recyclerView.visibility = View.VISIBLE
-        tracks.clear()
-        tracks.addAll(trackList)
-        trackAdapter.notifyDataSetChanged()
+        trackAdapter.updateTracks(trackList)
     }
 
     private fun onTrackClick(track: Track) {

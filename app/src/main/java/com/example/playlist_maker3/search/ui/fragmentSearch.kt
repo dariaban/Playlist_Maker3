@@ -60,8 +60,13 @@ class SearchFragment : Fragment() {
         setupToolbar()
         setupRecyclerViews()
         setupListeners()
-
+        if(binding.searchBar.text.isNotEmpty()){
+            showTrackList()
+        } else {
+            viewModel.loadSearchHistory()
+        }
         viewModel.observeState().observe(viewLifecycleOwner) { render(it) }
+
     }
 
     private fun setupToolbar() {
@@ -73,14 +78,11 @@ class SearchFragment : Fragment() {
     private fun setupRecyclerViews() {
         binding.recyclerView.layoutManager = LinearLayoutManager(requireContext())
         binding.recyclerView.adapter = adapter
-
         binding.searchHistoryRecyclerView.layoutManager = LinearLayoutManager(requireContext())
         binding.searchHistoryRecyclerView.adapter = historyAdapter
     }
 
     private fun setupListeners() {
-       viewModel.loadSearchHistory()
-
 
 
         binding.searchBar.addTextChangedListener(object : TextWatcher {
@@ -103,6 +105,7 @@ class SearchFragment : Fragment() {
 
         binding.clearIcon.setOnClickListener {
             binding.searchBar.text.clear()
+            binding.searchHistory.isVisible = true
         }
 
         binding.cleanHistory.setOnClickListener {
@@ -128,7 +131,7 @@ class SearchFragment : Fragment() {
     }
 
     private fun showSearchHistory(history: List<Track>) {
-        if (history.isNotEmpty()) {
+        if (history.isNotEmpty() && binding.searchBar.text.isNullOrEmpty()) {
             binding.searchHistory.isVisible = true
             historyAdapter.updateTracks(history)
             binding.recyclerView.isVisible = false

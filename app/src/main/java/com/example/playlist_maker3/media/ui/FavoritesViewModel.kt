@@ -1,6 +1,5 @@
 package com.example.playlist_maker3.media.ui
 
-import android.content.Context
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -11,7 +10,6 @@ import com.example.playlist_maker3.search.domain.model.Track
 import kotlinx.coroutines.launch
 
 class FavoritesViewModel(
-    private val context: Context,
     private val favoriteInteractor: FavoriteInteractor
 ) : ViewModel() {
     private val stateLiveData = MutableLiveData<FavoriteState>()
@@ -22,6 +20,8 @@ class FavoritesViewModel(
         stateLiveData.postValue(state)
     }
 
+    init{ fillData()}
+
     private fun processResult(tracks: List<Track>) {
         if (tracks.isEmpty()) {
             renderState(FavoriteState.Empty("Пока ничего не искали"))
@@ -31,7 +31,6 @@ class FavoritesViewModel(
     }
 
     fun fillData() {
-        renderState(FavoriteState.Loading)
         viewModelScope.launch {
             favoriteInteractor.historyTracks().collect { tracks -> processResult(tracks) }
         }

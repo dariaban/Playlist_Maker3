@@ -7,14 +7,16 @@ import com.example.playlist_maker3.media.domain.db.FavoriteRepository
 import com.example.playlist_maker3.search.domain.model.Track
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.map
 
 class FavoriteRepositoryImpl(
     private val database: AppDatabase,
     private val trackDbConvertor: TrackDbConvertor
 ) : FavoriteRepository {
-    override fun historyTracks(): Flow<List<Track>> = flow{
-        val tracks = database.trackDao().getTracks()
-        emit(convertFromTrackEntity(tracks))
+    override fun historyTracks(): Flow<List<Track>> {
+        return database.trackDao().getTracks().map { entities ->
+            entities.map { convertFromTrackEntity(it)}
+        }
     }
 
     override fun isChecked(): Flow<List<Int>> = flow {
@@ -30,8 +32,8 @@ class FavoriteRepositoryImpl(
         database.trackDao().deleteTrack(convertToTrackEntity(track))
     }
 
-    private fun convertFromTrackEntity(tracks: List<TrackEntity>): List<Track>{
-        return tracks.map{ track -> trackDbConvertor.map(track)}
+    private fun convertFromTrackEntity(track: TrackEntity): Track {
+        return trackDbConvertor.mapToTrack(track)
     }
 
     private fun convertToTrackEntity(track: Track): TrackEntity {

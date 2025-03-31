@@ -52,6 +52,6 @@ val dataModule = module {
     factory<ExternalNavigator> { ExternalNavigatorImpl(context = get()) }
 
     single {
-        Room.databaseBuilder(androidContext(), AppDatabase::class.java, "database.db").build()
+        Room.databaseBuilder(androidContext(), AppDatabase::class.java, "database.db").fallbackToDestructiveMigration().build()
     }
 }

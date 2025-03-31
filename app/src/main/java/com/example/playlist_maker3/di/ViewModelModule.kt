@@ -6,7 +6,6 @@ import com.example.playlist_maker3.media.ui.PlaylistViewModel
 import com.example.playlist_maker3.player.ui.PlayerViewModel
 import com.example.playlist_maker3.search.ui.SearchViewModel
 import com.example.playlist_maker3.settings.ui.SettingsActivityViewModel
-import org.koin.android.ext.koin.androidContext
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.module
 
@@ -27,7 +26,7 @@ val viewModelModule = module {
         PlaylistViewModel()
     }
     viewModel {
-        FavoritesViewModel(androidContext(), get())
+        FavoritesViewModel( get())
     }
     viewModel {
         MediaViewModel()

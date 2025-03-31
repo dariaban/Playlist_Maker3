@@ -20,7 +20,7 @@ val repositoryModule = module {
     single { TrackMapper() }
 
     single<TrackRepository> {
-        TrackRepositoryImpl(get(), get(), get(), get())
+        TrackRepositoryImpl(get(), get())
     }
 
     single<SearchHistoryRepository> {

@@ -87,6 +87,7 @@ class PlayerViewModel(
     fun favoriteClicked(track: Track) {
         viewModelScope.launch {
             renderFavoriteState(favoriteInteractor.updateFavorite(track))
+
         }
     }
 

@@ -15,7 +15,8 @@ class TrackMapper() {
             track.releaseDate,
             track.trackTimeMillis,
             track.country,
-            track.primaryGenreName
+            track.primaryGenreName,
+            track.saveDate
         )
     }
 }

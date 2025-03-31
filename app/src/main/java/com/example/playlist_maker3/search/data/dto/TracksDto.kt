@@ -12,5 +12,6 @@ data class TracksDto(
     val releaseDate: String,
     val trackTimeMillis: Int,
     val country: String,
-    val primaryGenreName: String
+    val primaryGenreName: String,
+    var saveDate: Long
 ) : Serializable
