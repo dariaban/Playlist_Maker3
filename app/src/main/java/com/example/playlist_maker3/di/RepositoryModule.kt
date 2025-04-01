@@ -1,6 +1,9 @@
 package com.example.playlist_maker3.di
 
 
+import com.example.playlist_maker3.media.data.FavoriteRepositoryImpl
+import com.example.playlist_maker3.media.data.converters.TrackDbConvertor
+import com.example.playlist_maker3.media.domain.db.FavoriteRepository
 import com.example.playlist_maker3.player.util.TimeFormatter
 import com.example.playlist_maker3.search.data.mapper.TrackMapper
 import com.example.playlist_maker3.search.data.repository.SearchHistoryRepositoryImpl
@@ -28,5 +31,9 @@ val repositoryModule = module {
         DarkThemeImpl(get())
     }
 
+    factory{ TrackDbConvertor() }
 
+    single<FavoriteRepository>{
+        FavoriteRepositoryImpl(get(), get())
+    }
 }

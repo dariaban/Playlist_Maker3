@@ -4,6 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.playlist_maker3.media.domain.db.FavoriteInteractor
 import com.example.playlist_maker3.player.domain.PlaybackControl
 import com.example.playlist_maker3.player.domain.PlayerState
 import com.example.playlist_maker3.search.domain.model.Track
@@ -11,7 +12,10 @@ import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
-class PlayerViewModel(private val playerInteractor: PlaybackControl) :
+class PlayerViewModel(
+    private val playerInteractor: PlaybackControl,
+    private val favoriteInteractor: FavoriteInteractor
+) :
     ViewModel() {
 
     companion object {
@@ -28,6 +32,8 @@ class PlayerViewModel(private val playerInteractor: PlaybackControl) :
         }
     }
 
+    private val stateFavoriteData = MutableLiveData<Boolean>()
+    fun observeFavoriteState(): LiveData<Boolean> = stateFavoriteData
     private val stateLiveData = MutableLiveData<PlayerState>()
     fun observeState(): LiveData<PlayerState> = stateLiveData
 
@@ -41,6 +47,7 @@ class PlayerViewModel(private val playerInteractor: PlaybackControl) :
     fun prepare(track: Track) {
         playerInteractor.prepare(track)
         renderState(PlayerState.STATE_PREPARED)
+        isChecked(track)
     }
 
     fun playbackControl() {
@@ -64,6 +71,7 @@ class PlayerViewModel(private val playerInteractor: PlaybackControl) :
 
     private fun renderState(state: PlayerState) {
         stateLiveData.postValue(state)
+
     }
 
     private fun startTimer(state: PlayerState) {
@@ -74,5 +82,22 @@ class PlayerViewModel(private val playerInteractor: PlaybackControl) :
                 stateProgressTimeLiveData.postValue(progressTime)
             }
         }
+    }
+
+    fun favoriteClicked(track: Track) {
+        viewModelScope.launch {
+            renderFavoriteState(favoriteInteractor.updateFavorite(track))
+
+        }
+    }
+
+    private fun isChecked(track: Track) {
+        viewModelScope.launch {
+            renderFavoriteState(favoriteInteractor.isChecked(track.trackId))
+        }
+    }
+
+    private fun renderFavoriteState(isChecked: Boolean) {
+        stateFavoriteData.postValue(isChecked)
     }
 }

@@ -1,8 +1,11 @@
-package com.example.playlist_maker3.search.data.dto
+package com.example.playlist_maker3.media.data.db.entity
 
-import java.io.Serializable
+import androidx.room.Entity
+import androidx.room.PrimaryKey
 
-data class TracksDto(
+@Entity(tableName = "track_table")
+data class TrackEntity(
+    @PrimaryKey
     val trackId: Int,
     val artistName: String,
     val collectionName: String,
@@ -14,4 +17,4 @@ data class TracksDto(
     val country: String,
     val primaryGenreName: String,
     var saveDate: Long
-) : Serializable
+)

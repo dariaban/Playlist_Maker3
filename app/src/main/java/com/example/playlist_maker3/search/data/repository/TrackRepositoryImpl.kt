@@ -1,5 +1,6 @@
 package com.example.playlist_maker3.search.data.repository
 
+
 import com.example.playlist_maker3.search.data.dto.TrackSearchRequest
 import com.example.playlist_maker3.search.data.dto.TrackSearchResponse
 import com.example.playlist_maker3.search.data.mapper.TrackMapper
@@ -13,7 +14,7 @@ import kotlinx.coroutines.flow.flow
 
 class TrackRepositoryImpl(
     private val networkClient: NetworkClient,
-    private val trackMapper: TrackMapper
+    private val trackMapper: TrackMapper,
 ) : TrackRepository {
 
     override suspend fun searchTracks(expression: String): Flow<Resource<List<Track>>> = flow {
