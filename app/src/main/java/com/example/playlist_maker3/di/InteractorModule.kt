@@ -1,7 +1,11 @@
 package com.example.playlist_maker3.di
 
 import com.example.playlist_maker3.media.domain.db.FavoriteInteractor
+import com.example.playlist_maker3.media.domain.db.NewPlaylistInteractor
+import com.example.playlist_maker3.media.domain.db.PlaylistsInteractor
 import com.example.playlist_maker3.media.domain.impl.FavoriteInteractorImpl
+import com.example.playlist_maker3.media.domain.impl.NewPlaylistInteractorImpl
+import com.example.playlist_maker3.media.domain.impl.PlaylistsInteractorImpl
 import com.example.playlist_maker3.player.domain.PlaybackControl
 import com.example.playlist_maker3.player.domain.impl.PlaybackControlImpl
 import com.example.playlist_maker3.search.domain.api.SearchHistoryInteractor
@@ -23,7 +27,7 @@ val interactorModule = module {
     single<DarkThemeInteractor> {
         DarkThemeInteractorImpl(get())
     }
-    single <SearchHistoryInteractor>{ SearchHistoryInteractorImpl(get()) }
+    single<SearchHistoryInteractor> { SearchHistoryInteractorImpl(get()) }
 
     single<ShareInteractor> {
         ShareInteractorImpl(get())
@@ -33,7 +37,10 @@ val interactorModule = module {
         PlaybackControlImpl(get())
     }
 
-    single<FavoriteInteractor>{
+    single<FavoriteInteractor> {
         FavoriteInteractorImpl(get())
     }
+
+    single<PlaylistsInteractor> { PlaylistsInteractorImpl(get()) }
+    single<NewPlaylistInteractor>{NewPlaylistInteractorImpl(get())}
 }

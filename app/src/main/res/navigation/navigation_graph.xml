@@ -2,23 +2,75 @@
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main_navigation_graph"
     app:startDestination="@id/libraryFragment">
-
     <fragment
         android:id="@+id/libraryFragment"
         android:name="com.example.playlist_maker3.media.ui.MediaFragment"
-        android:label="Library"
-        tools:layout="@layout/fragment_media" />
+        android:label="@string/label_library"
+        tools:layout="@layout/fragment_media" >
+        <action
+            android:id="@+id/action_libraryFragment_to_audioPlayer"
+            app:destination="@id/audioPlayer"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right"/>
+        <action
+            android:id="@+id/action_libraryFragment_to_newPlaylistFragment"
+            app:destination="@+id/newPlaylist"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right"/>
+    </fragment>
+
+    <fragment
+        android:id="@+id/newPlaylist"
+        android:name="com.example.playlist_maker3.media.ui.NewPlaylistFragment"
+        android:label="@string/label_newPlaylistFragment"
+        tools:layout="@layout/fragment_new_playlist"/>
+    <dialog
+        android:id="@+id/bottomSheet"
+        android:name="com.example.playlist_maker3.media.ui.PlaylistsBottomSheet"
+        android:label="BottomSheet" >
+        <action
+            android:id="@+id/action_bottomSheet_to_newPlaylist"
+            app:destination="@id/newPlaylist"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right"/>
+    </dialog>
 
     <fragment
         android:id="@+id/searchFragment"
         android:name="com.example.playlist_maker3.search.ui.SearchFragment"
-        android:label="Search"
-        tools:layout="@layout/fragment_search" />
+        android:label="@string/label_search"
+        tools:layout="@layout/fragment_search" >
+        <action
+            android:id="@+id/action_searchFragment_to_audioPlayer"
+            app:destination="@id/audioPlayer"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
+    </fragment>
 
     <fragment
         android:id="@+id/settingsFragment"
         android:name="com.example.playlist_maker3.settings.ui.FragmentSettings"
-        android:label="Settings"
+        android:label="@string/label_settings"
         tools:layout="@layout/fragment_settings" />
+
+    <fragment
+        android:id="@+id/audioPlayer"
+        android:name="com.example.playlist_maker3.player.ui.AudioPlayerFragment"
+        android:label="@string/label_player"
+        tools:layout="@layout/fragment_audioplayer"/>
+    <action
+        android:id="@+id/action_audioPlayerFragment_to_bottomSheet"
+        app:destination="@id/bottomSheet" />
+
+
 </navigation>

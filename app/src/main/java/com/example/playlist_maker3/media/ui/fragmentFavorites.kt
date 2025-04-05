@@ -1,19 +1,23 @@
 package com.example.playlist_maker3.media.ui
 
-import android.content.Intent
+
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.annotation.RequiresApi
+import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.playlist_maker3.Constants
+import com.example.playlist_maker3.R
 import com.example.playlist_maker3.databinding.FragmentFavoritesBinding
 import com.example.playlist_maker3.media.domain.FavoriteState
-import com.example.playlist_maker3.player.ui.PlayerActivity
+import com.example.playlist_maker3.player.ui.AudioPlayerFragment
 import com.example.playlist_maker3.search.domain.model.Track
 import com.example.playlist_maker3.search.ui.TrackAdapter
-import com.google.gson.Gson
+import kotlinx.serialization.encodeToString
+import kotlinx.serialization.json.Json
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 
@@ -62,13 +66,12 @@ class FavoritesFragment : Fragment() {
     }
 
     private fun onTrackClick(track: Track) {
-        activity?.let { context ->
-            Intent(context, PlayerActivity::class.java).apply {
-                putExtra(PlayerActivity.TRACK, track)
-                context.startActivity(this)
+        findNavController().navigate(
+            R.id.action_libraryFragment_to_audioPlayer,
+            AudioPlayerFragment.createArgs(track))
             }
-        }
-    }
+
+
 
     private fun showEmpty() {
         binding.recyclerView.visibility = View.GONE
@@ -83,5 +86,7 @@ class FavoritesFragment : Fragment() {
 
     companion object {
         fun newInstance() = FavoritesFragment()
+        fun createArgs(track: Track): Bundle = bundleOf(
+            Constants.TRACK to Json.encodeToString(track))
     }
 }

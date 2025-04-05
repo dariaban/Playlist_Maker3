@@ -4,7 +4,8 @@
     <item
         android:id="@+id/searchFragment"
         android:icon="@drawable/search"
-        android:title="@string/search" />
+        android:title="@string/search"
+        />
 
     <item
         android:id="@+id/libraryFragment"
