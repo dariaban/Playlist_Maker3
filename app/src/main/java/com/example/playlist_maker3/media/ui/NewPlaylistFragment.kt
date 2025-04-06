@@ -17,7 +17,6 @@ import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.ContextCompat
-import androidx.core.graphics.blue
 import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
@@ -31,7 +30,6 @@ import com.example.playlist_maker3.media.domain.model.PermissionsResultState
 import com.example.playlist_maker3.media.setImage
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.snackbar.Snackbar
-import com.google.android.material.textfield.TextInputLayout
 import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import java.io.File
@@ -47,7 +45,7 @@ class NewPlaylistFragment : Fragment() {
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?,
-    ): View? {
+    ): View {
         binding = FragmentNewPlaylistBinding.inflate(inflater, container, false)
         return binding.root
     }
@@ -71,8 +69,6 @@ class NewPlaylistFragment : Fragment() {
 
                 binding.playlistCoverImage.setImage(uri, cornerRadius)
                 saveImageToPrivateStorage(uri)
-                Log.d("PhotoPicker", "Saved")
-            } else {
             }
         }
     }
@@ -139,11 +135,11 @@ class NewPlaylistFragment : Fragment() {
                 viewModel.onPlaylistCoverClicked()
             }
 
+
             playlistName.doOnTextChanged { text, _, _, _ ->
                 binding.playlistName.isCursorVisible = true
                 renderBoxStrokeEditTextColor(binding.playlistNameContainer, text)
                 viewModel.onPlaylistNameChanged(text.toString())
-
 
             }
 
@@ -172,7 +168,10 @@ class NewPlaylistFragment : Fragment() {
                 binding.buttonCreate.setBackgroundResource(R.drawable.rounder2)
             }
 
-            BtnCreateState.DISABLED -> binding.buttonCreate.isEnabled = false
+            BtnCreateState.DISABLED -> {
+                binding.buttonCreate.isEnabled = false
+                binding.buttonCreate.setBackgroundResource(R.drawable.rounder)
+            }
         }
     }
 
@@ -191,10 +190,10 @@ class NewPlaylistFragment : Fragment() {
         } else {
             view.defaultHintTextColor = ContextCompat.getColorStateList(
                 requireContext(),
-                R.color.blue
+                R.color.gray
             )
             ContextCompat
-                .getColorStateList(requireContext(), R.color.blue)
+                .getColorStateList(requireContext(), R.color.gray)
                 ?.let { view.setBoxStrokeColorStateList(it) }
         }
     }

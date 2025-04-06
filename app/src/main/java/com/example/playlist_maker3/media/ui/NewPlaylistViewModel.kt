@@ -22,7 +22,8 @@ class NewPlaylistViewModel(
     private val interactor: NewPlaylistInteractor,
 ) : ViewModel() {
 
-    private val _screenStateFlow: MutableSharedFlow<ScreenState> = MutableSharedFlow(replay = 1, onBufferOverflow = BufferOverflow.DROP_OLDEST
+    private val _screenStateFlow: MutableSharedFlow<ScreenState> = MutableSharedFlow(
+        replay = 1, onBufferOverflow = BufferOverflow.DROP_OLDEST
     )
 
     val screenStateFlow = _screenStateFlow.asSharedFlow()
@@ -64,11 +65,9 @@ class NewPlaylistViewModel(
         }
     }
 
+
     fun onPlaylistNameChanged(playlistName: String?) {
-        if (playlistName != null) {
-            this.playlistName = playlistName
-            Log.d("Playlist_text", playlistName)
-        }
+        this.playlistName = playlistName!!
 
         if (!playlistName.isNullOrEmpty()) {
             _screenStateFlow.tryEmit(ScreenState.HasContent())
@@ -80,10 +79,10 @@ class NewPlaylistViewModel(
 
         if (playlistDescription != null) {
             this.playlistDescription = playlistDescription
-            Log.d("Playlist_text", playlistDescription)
         }
-
     }
+
+
 
     fun onCreateBtnClicked() {
         viewModelScope.launch {
@@ -93,7 +92,8 @@ class NewPlaylistViewModel(
                 playlistName = playlistName,
                 playlistDescription = playlistDescription,
                 trackList = mutableListOf(),
-                tracksCount = tracksCount)
+                tracksCount = tracksCount
+            )
             Log.d("Playlist_item", newPlaylist.toString())
             interactor.create(
                 newPlaylist

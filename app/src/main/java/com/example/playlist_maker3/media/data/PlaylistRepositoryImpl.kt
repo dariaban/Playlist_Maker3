@@ -6,7 +6,6 @@ import com.example.playlist_maker3.media.data.db.AppDatabase
 import com.example.playlist_maker3.media.data.db.entity.PlaylistEntity
 import com.example.playlist_maker3.media.domain.db.PlaylistsRepository
 import com.example.playlist_maker3.media.domain.model.Playlist
-import com.example.playlist_maker3.search.domain.model.Track
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 
@@ -17,7 +16,6 @@ class PlaylistsRepositoryImpl(
 
     override suspend fun createPlaylist(playlist: Playlist) {
         val playlistEntity = converter.map(playlist)
-        Log.d("Playlist_item", playlistEntity.toString())
         database
             .playlistsDao()
             .insertPlaylist(playlistEntity)
