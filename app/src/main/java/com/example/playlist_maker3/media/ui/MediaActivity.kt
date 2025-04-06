@@ -18,6 +18,7 @@ class MediaActivity : AppCompatActivity() {
         navHostFragment?.let {
             val navController = it.navController
             binding.bottomNavigation.setupWithNavController(navController)
+
         }
     }
 }

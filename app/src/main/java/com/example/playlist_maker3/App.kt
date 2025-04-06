@@ -7,10 +7,12 @@ import com.example.playlist_maker3.di.dataModule
 import com.example.playlist_maker3.di.interactorModule
 import com.example.playlist_maker3.di.repositoryModule
 import com.example.playlist_maker3.di.viewModelModule
+import com.markodevcic.peko.PermissionRequester
 import org.koin.android.ext.koin.androidContext
 import org.koin.core.context.GlobalContext.startKoin
 
 class App : Application() {
+
     override fun onCreate() {
         super.onCreate()
         context = this
@@ -18,6 +20,7 @@ class App : Application() {
             androidContext(this@App)
             modules(dataModule, repositoryModule, interactorModule, viewModelModule)
         }
+        PermissionRequester.initialize(applicationContext)
         val sharedPreferences =
             getSharedPreferences(THEME_PREFERENCES, MODE_PRIVATE)
         val darkTheme = sharedPreferences.getBoolean(PREFERENCES_KEY, false)

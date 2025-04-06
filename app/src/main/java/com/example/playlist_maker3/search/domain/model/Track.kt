@@ -1,7 +1,8 @@
 package com.example.playlist_maker3.search.domain.model
 
-import java.io.Serializable
+import kotlinx.serialization.Serializable
 
+@Serializable
 data class Track(
     val trackId: Int,
     val artistName: String,
@@ -14,5 +15,5 @@ data class Track(
     val country: String,
     val primaryGenreName: String,
     var saveDate: Long
-) : Serializable
+)
 

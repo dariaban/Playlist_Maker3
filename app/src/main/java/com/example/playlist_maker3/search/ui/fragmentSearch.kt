@@ -1,23 +1,27 @@
 package com.example.playlist_maker3.search.ui
 
-import android.content.Intent
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.os.bundleOf
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.playlist_maker3.Constants
+import com.example.playlist_maker3.R
 import com.example.playlist_maker3.databinding.FragmentSearchBinding
-import com.example.playlist_maker3.player.ui.PlayerActivity
+import com.example.playlist_maker3.player.ui.AudioPlayerFragment
 import com.example.playlist_maker3.search.domain.SearchState
 import com.example.playlist_maker3.search.domain.model.Track
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import kotlinx.serialization.encodeToString
+import kotlinx.serialization.json.Json
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class SearchFragment : Fragment() {
@@ -30,17 +34,15 @@ class SearchFragment : Fragment() {
         viewModel.addTrack(it)
         if (clickDebounce()) {
             viewModel.addTrack(it)
-            val intent = Intent(context, PlayerActivity::class.java)
-            intent.putExtra(PlayerActivity.TRACK, it)
-            startActivity(intent)
+            findNavController().navigate(R.id.action_searchFragment_to_audioPlayer,
+                AudioPlayerFragment.createArgs(it))
         }
     }
     private val historyAdapter = TrackAdapter(emptyList()) {
         if (clickDebounce()) {
             viewModel.addTrack(it)
-            val intent = Intent (context,PlayerActivity::class.java )
-            intent.putExtra(PlayerActivity.TRACK, it)
-            startActivity(intent)
+            findNavController().navigate(R.id.action_searchFragment_to_audioPlayer,
+                AudioPlayerFragment.createArgs(it))
         }
     }
 
@@ -186,7 +188,17 @@ class SearchFragment : Fragment() {
         return current
     }
 
+    override fun onResume() {
+    super.onResume()
+        isClickAllowed=true
+    }
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        outState.putString(INPUT_TEXT, binding.searchBar.toString())
+    }
+
     companion object {
+        private const val INPUT_TEXT = "INPUT_TEXT"
         private const val CLICK_DEBOUNCE_DELAY = 1000L
     }
 }

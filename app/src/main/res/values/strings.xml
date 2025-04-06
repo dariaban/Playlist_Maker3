@@ -30,6 +30,43 @@
     <string name="tab_playlists">Плейлисты</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="hint_name">Название*</string>
+    <string name="hint_description">Описание</string>
+    <string name="create">Создать</string>
+    <string name="add_to_playlist">Добавить в плейлист</string>
+    <string name="creator_alarm_body">Разрешить приложению «Playlist Maker» доступ к фото?</string>
+    <string name="positive_button">Завершить</string>
+    <string name="negative_button">Отмена</string>
+    <string name="back_alert_message">Все несохраненные данные будут потеряны</string>
+    <string name="back_alert_title">Завершить создание плейлиста?</string>
+    <string name="add_track_message">Добавлено в плейлист </string>
+    <string name="add_track_message_false">Трек уже добавлен в плейлист </string>
+    <string name="add_playlist_message">Плейлист %s создан</string>
+    <plurals name="tracksContOfList">
+        <item quantity="zero">%1$d треков</item>
+        <item quantity="one">%1$d трек</item>
+        <item quantity="two">%1$d трека</item>
+        <item quantity="few">%1$d трека</item>
+        <item quantity="many">%1$d треков</item>
+        <item quantity="other">%1$d трекoв</item>
+    </plurals>
+    <string name="zero_tracks">0 треков</string>
+    <string name="rationale_permission_message">Необходимо разрешение для просмотра галереи</string>
+    <string name="cover">Обложка альбома</string>
+    <string name="title_playlist_dialog">Завершить создание плейлиста?</string>
+    <string name="message_playlist_dialog">Все несохраненные данные будут потеряны</string>
+    <string name="cancel">Отмена</string>
+    <string name="complete">Завершить</string>
+    <string name="playlist">Плейлист</string>
+    <string name="my_playlists">my_playlists</string>
+    <string name="created">создан</string>
+    <string name="already_added">Трек уже добавлен в плейлист</string>
+    <string name="added">Добавлено в плейлист</string>
+    <string name="label_library">LibraryFragment</string>
+    <string name="label_search">SearchFragment</string>
+    <string name="label_settings">SettingsFragment</string>
+    <string name="label_player">AudioPlayerActivity</string>
+    <string name="label_newPlaylistFragment">NewPlaylistFragment</string>
     <!-- TODO: Remove or change this placeholder text -->
 
 </resources>

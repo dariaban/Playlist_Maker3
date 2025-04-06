@@ -8,4 +8,5 @@
     <color name="lightGray">#E6E8EB</color>
     <color name="jetBlack">#FF000000</color>
     <color name="lightIcon">#99A2AD</color>
+    <color name="text_color_primary">#000000</color>
 </resources>

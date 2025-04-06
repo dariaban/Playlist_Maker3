@@ -2,8 +2,11 @@ package com.example.playlist_maker3.di
 
 
 import com.example.playlist_maker3.media.data.FavoriteRepositoryImpl
+import com.example.playlist_maker3.media.data.PlaylistsRepositoryImpl
+import com.example.playlist_maker3.media.data.converters.PlaylistDbConvertor
 import com.example.playlist_maker3.media.data.converters.TrackDbConvertor
 import com.example.playlist_maker3.media.domain.db.FavoriteRepository
+import com.example.playlist_maker3.media.domain.db.PlaylistsRepository
 import com.example.playlist_maker3.player.util.TimeFormatter
 import com.example.playlist_maker3.search.data.mapper.TrackMapper
 import com.example.playlist_maker3.search.data.repository.SearchHistoryRepositoryImpl
@@ -27,13 +30,18 @@ val repositoryModule = module {
         SearchHistoryRepositoryImpl(get())
     }
 
-    single <DarkTheme> {
+    single<DarkTheme> {
         DarkThemeImpl(get())
     }
 
-    factory{ TrackDbConvertor() }
+    factory { TrackDbConvertor() }
 
-    single<FavoriteRepository>{
+    factory {
+        PlaylistDbConvertor()
+    }
+
+    single<FavoriteRepository> {
         FavoriteRepositoryImpl(get(), get())
     }
+    single<PlaylistsRepository> { PlaylistsRepositoryImpl(get(), get()) }
 }

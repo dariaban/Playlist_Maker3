@@ -61,4 +61,70 @@
         <item name="android:textSize">@dimen/text_size_14</item>
         <item name="android:textColor">?attr/colorPrimaryVariant</item>
     </style>
+    <style name="PlayListText">
+        <item name="android:fontFamily">@font/ys_display_regular</item>
+        <item name="android:textSize">12sp</item>
+        <item name="android:textColor">?attr/colorOnSecondary</item>
+    </style>
+    <style name="FirstContent">
+        <item name="android:fontFamily">@font/ys_display_regular</item>
+        <item name="android:textSize">16sp</item>
+        <item name="android:textColor">?attr/colorOnSecondary</item>
+    </style>
+    <style name="SecondContent">
+        <item name="android:fontFamily">@font/ys_display_regular</item>
+        <item name="android:textSize">11sp</item>
+        <item name="maxLines">1</item>
+        <item name="android:textColor">@color/gray</item>
+    </style>
+    <style name="ErrorButtonPlaceholder">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_gravity">center</item>
+        <item name="iconTint">@color/text_color_primary</item>
+        <item name="fontFamily">@font/ys_display_medium</item>
+        <item name="fontWeight">500</item>
+        <item name="android:textSize">@dimen/text_size_14</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="android:textAlignment">center</item>
+        <item name="android:letterSpacing">0</item>
+        <item name="android:layout_marginTop">20dp</item>
+        <item name="android:padding">15dp</item>
+        <item name="android:backgroundTint">@color/black</item>
+        <item name="android:textAllCaps">false</item>
+        <item name="cornerRadius">54dp</item>
+    </style>
+    <style name="textPanelHeader">
+        <item name="android:textColor">?attr/colorOnSecondary</item>
+        <item name="android:textSize">@dimen/text_size_22</item>
+        <item name="android:fontFamily">@font/ys_display_medium</item>
+    </style>
+    <style name="panelHeaderToolbar">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:padding">@dimen/padding_4</item>
+        <item name="android:layout_marginBottom">@dimen/margin_24</item>
+        <item name="android:background">?attr/colorSecondary</item>
+        <item name="titleTextAppearance">@style/textPanelHeader</item>
+        <item name="contentInsetStart">0dp</item>
+        <item name="contentInsetStartWithNavigation">0dp</item>
+        <item name="titleMarginStart">@dimen/margin_16</item>
+    </style>
+    <dimen name="padding_4">4dp</dimen>
+    <dimen name="margin_16">16dp</dimen>
+    <dimen name="corner_radius_16">16dp</dimen>
+
+    <style name="CustomShapeAppearanceBottomSheetDialog" >
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSizeTopRight">@dimen/corner_radius_16</item>
+        <item name="cornerSizeTopLeft">@dimen/corner_radius_16</item>
+        <item name="cornerSizeBottomRight">0dp</item>
+        <item name="cornerSizeBottomLeft">0dp</item>
+    </style>
+    <style name="CustomBottomSheet" parent="Widget.MaterialComponents.BottomSheet">
+        <item name="shapeAppearanceOverlay">@style/CustomShapeAppearanceBottomSheetDialog</item>
+    </style>
+    <style name="CustomBottomSheetDialog" parent="@style/ThemeOverlay.MaterialComponents.BottomSheetDialog">
+        <item name="bottomSheetStyle">@style/CustomBottomSheet</item>
+    </style>
 </resources>
