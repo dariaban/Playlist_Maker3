@@ -20,6 +20,7 @@ import com.example.playlist_maker3.Constants
 import com.example.playlist_maker3.R
 import com.example.playlist_maker3.databinding.FragmentNewPlaylistBinding
 import com.example.playlist_maker3.media.domain.model.Playlist
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import java.io.File
@@ -43,6 +44,15 @@ open class NewPlaylistFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         initPlaylist()
+
+        if(!binding.playlistName.text.isNullOrEmpty()){
+            binding.buttonCreate.setBackgroundResource(R.drawable.rounder2)
+        }
+
+        val nav = activity?.findViewById<BottomNavigationView>(R.id.bottom_navigation)
+        if (nav != null) {
+            nav.visibility = View.GONE
+        }
 
         binding.playlistName.doOnTextChanged { s: CharSequence?, _, _, _ ->
             binding.buttonCreate.isEnabled = !s.isNullOrEmpty()
@@ -211,3 +221,4 @@ open class NewPlaylistFragment : Fragment() {
         findNavController().navigateUp()
     }
 }
+

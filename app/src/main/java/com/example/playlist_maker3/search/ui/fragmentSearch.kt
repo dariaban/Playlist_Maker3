@@ -16,6 +16,7 @@ import com.example.playlist_maker3.R
 import com.example.playlist_maker3.databinding.FragmentSearchBinding
 import com.example.playlist_maker3.search.domain.SearchState
 import com.example.playlist_maker3.search.domain.model.Track
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -42,6 +43,11 @@ class SearchFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        val nav = activity?.findViewById<BottomNavigationView>(R.id.bottom_navigation)
+        if (nav != null) {
+            nav.visibility = View.VISIBLE
+        }
 
         setupToolbar()
         setupRecyclerViews()

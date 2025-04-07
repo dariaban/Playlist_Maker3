@@ -47,6 +47,11 @@ class PlaylistViewModel(
                     playlistsInteractor.getPlaylistTracks(playlistId)
                 )
             )
+            renderState(
+                PlaylistState.PlaylistInfo(
+                    playlistsInteractor.getPlaylist(playlistId)
+                )
+            )
         }
     }
 

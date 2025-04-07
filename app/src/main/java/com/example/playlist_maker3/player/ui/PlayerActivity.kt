@@ -20,6 +20,7 @@ import com.example.playlist_maker3.media.ui.PlaylistsBottomSheet
 import com.example.playlist_maker3.player.domain.PlayerState
 import com.example.playlist_maker3.player.util.TimeFormatter
 import com.example.playlist_maker3.search.domain.model.Track
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class AudioPlayerFragment : Fragment() {
@@ -45,6 +46,11 @@ class AudioPlayerFragment : Fragment() {
 
         super.onViewCreated(view, savedInstanceState)
         binding.playButton.setOnClickListener { viewModel.playbackControl() }
+
+        val nav = activity?.findViewById<BottomNavigationView>(R.id.bottom_navigation)
+        if (nav != null) {
+            nav.visibility = View.GONE
+        }
 
         binding.addButton.setOnClickListener { button ->
             (button as? ImageView)?.let { startAnimation(it) }

@@ -4,7 +4,6 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.os.Bundle
 import android.os.Environment
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -21,6 +20,7 @@ import com.example.playlist_maker3.media.domain.model.Playlist
 import com.example.playlist_maker3.search.domain.model.Track
 import com.example.playlist_maker3.search.ui.TrackAdapter
 import com.example.playlist_maker3.search.utils.shareText
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -33,7 +33,6 @@ import java.util.concurrent.TimeUnit
 class PlaylistFragment : Fragment() {
     private val viewModel: PlaylistViewModel by viewModel()
     private lateinit var binding: FragmentPlaylistBinding
-    private val tracks = mutableListOf<Track>()
     private lateinit var playlist: Playlist
     private val trackAdapter = TrackAdapter({ clickOnTrack(it) }, { longClickOnTrack(it) })
 
@@ -48,6 +47,11 @@ class PlaylistFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        val nav = activity?.findViewById<BottomNavigationView>(R.id.bottom_navigation)
+        if (nav != null) {
+            nav.visibility = View.GONE
+        }
 
         viewModel.observeState().observe(viewLifecycleOwner) {
             when (it) {
@@ -222,6 +226,7 @@ class PlaylistFragment : Fragment() {
                 viewModel.deleteTrack(track.trackId, playlist.playlistId)
             }
             .show()
+
     }
 
 }
