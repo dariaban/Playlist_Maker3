@@ -1,6 +1,7 @@
 package com.example.playlist_maker3.media.ui
 
 import android.os.Bundle
+import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
@@ -18,7 +19,7 @@ class MediaActivity : AppCompatActivity() {
         navHostFragment?.let {
             val navController = it.navController
             binding.bottomNavigation.setupWithNavController(navController)
-
         }
+
     }
 }

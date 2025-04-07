@@ -8,9 +8,10 @@ import androidx.fragment.app.Fragment
 import com.example.playlist_maker3.R
 import com.example.playlist_maker3.databinding.FragmentMediaBinding
 import com.example.playlist_maker3.media.ui.adapter.MediaAdaptor
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.tabs.TabLayoutMediator
 
-class MediaFragment : Fragment() {
+ class MediaFragment : Fragment() {
 
     private lateinit var mediaAdapter: MediaAdaptor
     private var _binding: FragmentMediaBinding? = null
@@ -23,6 +24,11 @@ class MediaFragment : Fragment() {
         _binding = FragmentMediaBinding.inflate(inflater, container, false)
 
         setupViewPager()
+
+        val nav = activity?.findViewById<BottomNavigationView>(R.id.bottom_navigation)
+        if (nav != null) {
+            nav.visibility = View.VISIBLE
+        }
 
         binding.backButton.setOnClickListener {
             activity?.onBackPressedDispatcher?.onBackPressed()

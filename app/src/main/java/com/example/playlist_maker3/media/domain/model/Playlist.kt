@@ -1,13 +1,25 @@
 package com.example.playlist_maker3.media.domain.model
 
-import com.example.playlist_maker3.search.domain.model.Track
-
+import java.io.Serializable
 
 data class Playlist(
-    val id: Int,
-    val coverImageUrl: String,
-    val playlistName: String,
-    val playlistDescription:String,
-    var trackList: List<Track>,
+    val playlistId: Int,
+    val name: String,
+    val description: String,
+    val cover: String?,
     var tracksCount: Int
-)
+) : Serializable
+{
+
+    override fun equals(other: Any?): Boolean {
+        return if (other !is Playlist) {
+            false
+        } else {
+            other.playlistId == playlistId
+        }
+    }
+
+    override fun hashCode(): Int {
+        return playlistId
+    }
+}

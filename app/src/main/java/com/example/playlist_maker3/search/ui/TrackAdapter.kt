@@ -13,9 +13,12 @@ import com.example.playlist_maker3.search.domain.model.Track
 import java.text.SimpleDateFormat
 import java.util.Locale
 
-class TrackAdapter(private var dataList: List<Track>, private val clickListener: (Track) -> Unit) :
+class TrackAdapter(
+    private val clickListener: (Track) -> Unit,
+    private val longClickListener: LongTrackClickListener? = null
+) :
     RecyclerView.Adapter<TrackAdapter.TrackViewHolder>() {
-
+    var tracks = listOf<Track>()
 
     class TrackViewHolder(parentView: View) : RecyclerView.ViewHolder(parentView) {
         private val trackName: TextView = parentView.findViewById(R.id.trackName)
@@ -44,18 +47,30 @@ class TrackAdapter(private var dataList: List<Track>, private val clickListener:
     }
 
     override fun getItemCount(): Int {
-        return dataList.size
+        return tracks.size
     }
 
     override fun onBindViewHolder(holder: TrackViewHolder, position: Int) {
-        holder.bind(dataList[position])
+        holder.bind(tracks[position])
         holder.itemView.setOnClickListener {
-            clickListener.invoke(dataList[position])
+            clickListener.invoke(tracks[position])
+        }
+
+        longClickListener?.let { listener ->
+            holder.itemView.setOnLongClickListener {
+                listener.onTrackLongClick(tracks[holder.adapterPosition])
+                return@setOnLongClickListener true
+            }
         }
     }
 
     fun updateTracks(newTracks: List<Track>) {
-        dataList = newTracks
+        tracks = newTracks
         notifyDataSetChanged()
     }
+}
+
+
+fun interface LongTrackClickListener {
+    fun onTrackLongClick(track: Track)
 }

@@ -1,8 +1,8 @@
 package com.example.playlist_maker3.media.data.converters
 
 import com.example.playlist_maker3.media.data.db.entity.TrackEntity
-import com.example.playlist_maker3.search.data.dto.TracksDto
 import com.example.playlist_maker3.search.domain.model.Track
+import java.util.Calendar
 
 class TrackDbConvertor {
     fun map(track: Track): TrackEntity {
@@ -12,28 +12,28 @@ class TrackDbConvertor {
             track.collectionName,
             track.previewUrl?:"",
             track.artworkUrl100,
+            track.artworkUrl60,
             track.trackName,
             track.releaseDate?:"",
             track.trackTimeMillis,
             track.country,
             track.primaryGenreName,
-            track.saveDate
-
+            Calendar.getInstance().timeInMillis
         )
     }
-    fun mapToTrack(track: TrackEntity): Track{
+    fun mapToEntity(track: TrackEntity): Track{
         return Track(
             track.trackId,
             track.artistName,
             track.collectionName,
             track.previewUrl,
             track.artworkUrl100,
+            track.artworkUrl60,
             track.trackName,
             track.releaseDate,
             track.trackTimeMillis,
             track.country,
             track.primaryGenreName,
-            track.saveDate
         )
     }
 }

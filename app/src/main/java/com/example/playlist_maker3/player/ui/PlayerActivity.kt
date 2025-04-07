@@ -1,5 +1,6 @@
 package com.example.playlist_maker3.player.ui
 
+import android.content.Context
 import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -7,13 +8,8 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.animation.AnimationUtils
 import android.widget.ImageView
-import android.widget.LinearLayout
 import androidx.annotation.RequiresApi
-import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.commit
-import androidx.fragment.app.replace
-import androidx.navigation.NavOptions
 import androidx.navigation.fragment.findNavController
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
@@ -24,12 +20,8 @@ import com.example.playlist_maker3.media.ui.PlaylistsBottomSheet
 import com.example.playlist_maker3.player.domain.PlayerState
 import com.example.playlist_maker3.player.util.TimeFormatter
 import com.example.playlist_maker3.search.domain.model.Track
-import com.example.playlist_maker3.search.ui.SearchFragment
-import com.google.android.material.bottomsheet.BottomSheetBehavior
-import kotlinx.serialization.json.Json
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import org.koin.androidx.viewmodel.ext.android.viewModel
-import kotlinx.serialization.encodeToString
-
 
 class AudioPlayerFragment : Fragment() {
 
@@ -50,17 +42,19 @@ class AudioPlayerFragment : Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        track = requireArguments()
-            .getString(Constants.TRACK)
-            ?.let { Json.decodeFromString<Track>(it) }!!
+        track = arguments?.getSerializable(Constants.TRACK) as Track
+
         super.onViewCreated(view, savedInstanceState)
         binding.playButton.setOnClickListener { viewModel.playbackControl() }
 
+        val nav = activity?.findViewById<BottomNavigationView>(R.id.bottom_navigation)
+        if (nav != null) {
+            nav.visibility = View.GONE
+        }
+
         binding.addButton.setOnClickListener { button ->
             (button as? ImageView)?.let { startAnimation(it) }
-            findNavController().navigate(
-                R.id.action_audioPlayerFragment_to_bottomSheet, PlaylistsBottomSheet.createArgs(track)
-            )
+            PlaylistsBottomSheet.newInstance(track).show(childFragmentManager, PlaylistsBottomSheet.TAG)
         }
 
 
@@ -100,7 +94,7 @@ class AudioPlayerFragment : Fragment() {
 
 
         Glide.with(binding.image)
-            .load(track.artworkUrl100.replaceAfterLast('/', "512x512bb.jpg"))
+            .load(track.artworkUrl100?.replaceAfterLast('/', "512x512bb.jpg"))
             .placeholder(R.drawable.placeholder)
             .centerCrop()
             .transform(RoundedCorners(10))
@@ -143,16 +137,16 @@ class AudioPlayerFragment : Fragment() {
     }
 
 
-    override fun onPause() {
-        super.onPause()
-        viewModel.onPause()
+    @Suppress("DEPRECATION")
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        track = arguments?.getSerializable(Constants.TRACK) as Track
     }
 
 
-    companion object {
-        fun createArgs(track: Track): Bundle = bundleOf(
-            Constants.TRACK to Json.encodeToString(track)
-        )
+    override fun onPause() {
+        super.onPause()
+        viewModel.onPause()
     }
 
 }

@@ -16,11 +16,9 @@ class FavoriteInteractorImpl(private val favoriteRepository: FavoriteRepository)
     override suspend fun updateFavorite(track: Track): Boolean {
         favoriteRepository.isChecked().collect{tracksId ->
             isChecked = if (tracksId.contains(track.trackId)) {
-                track.saveDate = Long.MAX_VALUE
                 favoriteRepository.deleteTrack(track)
                 false
             } else {
-                track.saveDate = System.currentTimeMillis()
                 favoriteRepository.addTrack(track)
                 true
             }

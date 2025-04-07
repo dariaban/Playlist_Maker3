@@ -1,36 +1,55 @@
 package com.example.playlist_maker3.media.data.converters
 
-import com.example.playlist_maker3.media.data.db.entity.PlaylistEntity
+import com.example.playlist_maker3.media.data.db.entity.PlaylistWithCountTracks
+import com.example.playlist_maker3.media.data.db.entity.PlaylistsTrackEntity
 import com.example.playlist_maker3.media.domain.model.Playlist
-import kotlinx.serialization.encodeToString
-import kotlinx.serialization.json.Json
-import java.util.Calendar
-
+import com.example.playlist_maker3.search.domain.model.Track
 
 class PlaylistDbConvertor {
-    fun map(playlist: Playlist): PlaylistEntity {
-        return with(playlist) {
-            PlaylistEntity(
-                id = id,
-                playlistName = playlistName,
-                playlistDescription = playlistDescription,
-                imageUrl = coverImageUrl,
-                trackList = Json.encodeToString(trackList),
-                countTracks = tracksCount,
-                Calendar.getInstance().timeInMillis,
+    fun map(playlistWithCountTracks: PlaylistWithCountTracks): Playlist {
+        playlistWithCountTracks.apply {
+            return Playlist(
+                playlistId!!,
+                name,
+                description,
+                cover,
+                tracksCount,
             )
         }
     }
-    fun map(playlist: PlaylistEntity): Playlist {
 
-        return with(playlist) {
-            Playlist(
-                id = id,
-                coverImageUrl = imageUrl,
-                playlistName = playlistName,
-                playlistDescription = playlistDescription,
-                trackList = Json.decodeFromString(trackList),
-                tracksCount = countTracks,
+    fun map(playListsTrackEntity: PlaylistsTrackEntity): Track {
+        playListsTrackEntity.apply {
+            return Track(
+                trackId,
+                artistName,
+                collectionName,
+                previewUrl,
+                artworkUrl100,
+                artworkUrl60,
+                trackName,
+                releaseDate,
+                trackTimeMillis,
+                country,
+                primaryGenreName,
+            )
+        }
+    }
+
+    fun map(track: Track): PlaylistsTrackEntity {
+        track.apply {
+            return PlaylistsTrackEntity(
+                trackId,
+                artistName,
+                collectionName,
+                previewUrl,
+                artworkUrl100,
+                artworkUrl60,
+                trackName,
+                releaseDate,
+                trackTimeMillis,
+                country,
+                primaryGenreName
             )
         }
     }

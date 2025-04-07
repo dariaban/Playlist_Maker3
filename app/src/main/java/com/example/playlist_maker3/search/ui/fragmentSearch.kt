@@ -6,7 +6,6 @@ import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.os.bundleOf
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
@@ -15,13 +14,11 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.playlist_maker3.Constants
 import com.example.playlist_maker3.R
 import com.example.playlist_maker3.databinding.FragmentSearchBinding
-import com.example.playlist_maker3.player.ui.AudioPlayerFragment
 import com.example.playlist_maker3.search.domain.SearchState
 import com.example.playlist_maker3.search.domain.model.Track
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
-import kotlinx.serialization.encodeToString
-import kotlinx.serialization.json.Json
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class SearchFragment : Fragment() {
@@ -29,22 +26,10 @@ class SearchFragment : Fragment() {
     private lateinit var binding: FragmentSearchBinding
     private var input: String? = null
     private val viewModel: SearchViewModel by viewModel()
-    private val tracks = mutableListOf<Track>()
-    private val adapter = TrackAdapter(tracks) {
-        viewModel.addTrack(it)
-        if (clickDebounce()) {
-            viewModel.addTrack(it)
-            findNavController().navigate(R.id.action_searchFragment_to_audioPlayer,
-                AudioPlayerFragment.createArgs(it))
-        }
-    }
-    private val historyAdapter = TrackAdapter(emptyList()) {
-        if (clickDebounce()) {
-            viewModel.addTrack(it)
-            findNavController().navigate(R.id.action_searchFragment_to_audioPlayer,
-                AudioPlayerFragment.createArgs(it))
-        }
-    }
+    private val adapter = TrackAdapter({clickOnTrack(it)})
+
+    private var historyAdapter = TrackAdapter({ clickOnTrack(it) })
+
 
     private var isClickAllowed = true
 
@@ -59,10 +44,15 @@ class SearchFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        val nav = activity?.findViewById<BottomNavigationView>(R.id.bottom_navigation)
+        if (nav != null) {
+            nav.visibility = View.VISIBLE
+        }
+
         setupToolbar()
         setupRecyclerViews()
         setupListeners()
-        if(binding.searchBar.text.isNotEmpty()){
+        if (binding.searchBar.text.isNotEmpty()) {
             showTrackList()
         } else {
             viewModel.loadSearchHistory()
@@ -91,7 +81,7 @@ class SearchFragment : Fragment() {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
 
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-                viewModel.searchDebounce(s?.toString()?: "")
+                viewModel.searchDebounce(s?.toString() ?: "")
                 binding.clearIcon.isVisible = !s.isNullOrEmpty()
                 binding.searchHistory.isVisible = false
             }
@@ -102,7 +92,7 @@ class SearchFragment : Fragment() {
 
         })
         binding.refreshButton.setOnClickListener {
-            viewModel.searchDebounce(input?:"")
+            viewModel.searchDebounce(input ?: "")
         }
 
         binding.clearIcon.setOnClickListener {
@@ -124,11 +114,25 @@ class SearchFragment : Fragment() {
                 adapter.updateTracks(state.tracks)
                 showTrackList()
             }
+
             is SearchState.Empty -> showNotFoundPage()
             is SearchState.NetworkError -> showInternetErrorPage()
             is SearchState.Loading -> showLoadingPage()
             is SearchState.HistoryList -> showSearchHistory(state.historyTracks)
             SearchState.NothingFound -> showNotFoundPage()
+        }
+    }
+
+    private fun clickOnTrack(track: Track) {
+        viewModel.addTrack(track)
+        if (clickDebounce()) {
+            viewModel.addTrack(track)
+            findNavController().navigate(
+                R.id.action_to_Player,
+                Bundle().apply {
+                    putSerializable(Constants.TRACK, track)
+                }
+            )
         }
     }
 
@@ -180,7 +184,7 @@ class SearchFragment : Fragment() {
         val current = isClickAllowed
         if (isClickAllowed) {
             isClickAllowed = false
-            viewLifecycleOwner.lifecycleScope.launch{
+            viewLifecycleOwner.lifecycleScope.launch {
                 delay(CLICK_DEBOUNCE_DELAY)
                 isClickAllowed = true
             }
@@ -189,16 +193,17 @@ class SearchFragment : Fragment() {
     }
 
     override fun onResume() {
-    super.onResume()
-        isClickAllowed=true
-    }
-    override fun onSaveInstanceState(outState: Bundle) {
-        super.onSaveInstanceState(outState)
-        outState.putString(INPUT_TEXT, binding.searchBar.toString())
+        super.onResume()
+        isClickAllowed = true
     }
 
+//    override fun onSaveInstanceState(outState: Bundle) {
+//        super.onSaveInstanceState(outState)
+//        outState.putString(INPUT_TEXT, binding.searchBar.toString())
+//    }
+//
     companion object {
-        private const val INPUT_TEXT = "INPUT_TEXT"
+       // private const val INPUT_TEXT = "INPUT_TEXT"
         private const val CLICK_DEBOUNCE_DELAY = 1000L
     }
 }

@@ -11,12 +11,12 @@ class TrackMapper() {
             track.collectionName,
             track.previewUrl,
             track.artworkUrl100,
+            track.artworkUrl60,
             track.trackName,
             track.releaseDate,
             track.trackTimeMillis,
             track.country,
-            track.primaryGenreName,
-            track.saveDate
+            track.primaryGenreName
         )
     }
 }

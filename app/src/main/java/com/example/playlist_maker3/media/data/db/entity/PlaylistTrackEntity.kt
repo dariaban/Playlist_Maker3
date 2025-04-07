@@ -1,0 +1,20 @@
+package com.example.playlist_maker3.media.data.db.entity
+
+import androidx.room.Entity
+import androidx.room.PrimaryKey
+
+@Entity(tableName = "track_playlists")
+data class PlaylistsTrackEntity(
+    @PrimaryKey
+    val trackId: Int,
+    val artistName: String,
+    val collectionName: String,
+    val previewUrl: String?,
+    val artworkUrl100: String?,
+    val artworkUrl60: String?,
+    val trackName: String,
+    val releaseDate: String?,
+    val trackTimeMillis: Long,
+    val country: String,
+    val primaryGenreName: String,
+)

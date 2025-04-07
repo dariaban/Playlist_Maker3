@@ -7,7 +7,7 @@ object TimeFormatter {
     private const val TIME_FORMAT = "mm:ss"
     const val ZERO_TIME = "00:00"
 
-    fun format(time: Int): String {
+    fun format(time: Long): String {
         return SimpleDateFormat(
             TIME_FORMAT,
             Locale.getDefault()
