@@ -37,7 +37,7 @@ class PlaybackControlImpl(private val mediaPlayer: PlayerImpl) :
 
     override fun createUpdateProgressTime(): String {
         return if (playerState == PlayerState.STATE_PREPARED) TimeFormatter.ZERO_TIME else TimeFormatter.format(
-            mediaPlayer.getCurrentPosition()
+            mediaPlayer.getCurrentPosition().toLong()
         )
     }
 

@@ -8,9 +8,10 @@ data class TracksDto(
     val collectionName: String,
     val previewUrl: String,
     val artworkUrl100: String,
+    val artworkUrl60: String,
     val trackName: String,
     val releaseDate: String,
-    val trackTimeMillis: Int,
+    val trackTimeMillis: Long,
     val country: String,
     val primaryGenreName: String,
     var saveDate: Long

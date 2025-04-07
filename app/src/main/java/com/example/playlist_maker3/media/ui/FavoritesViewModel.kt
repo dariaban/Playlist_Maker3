@@ -30,7 +30,7 @@ class FavoritesViewModel(
         }
     }
 
-    fun fillData() {
+    private fun fillData() {
         viewModelScope.launch {
             favoriteInteractor.historyTracks().collect { tracks -> processResult(tracks) }
         }

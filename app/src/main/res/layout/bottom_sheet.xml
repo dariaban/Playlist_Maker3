@@ -9,7 +9,7 @@
     android:orientation="vertical"
     android:background="@drawable/bottom_sheet"
     android:theme="@style/Theme.MyApp"
-    app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior"
+    app:layout_behavior="com.google.android.material..BottomSheetBehavior"
     tools:context=".media.ui.PlaylistsBottomSheet">
 
     <View

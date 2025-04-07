@@ -7,7 +7,7 @@
     android:layout_height="match_parent"
     android:background="?attr/colorSecondary"
     android:theme="@style/Theme.MyApp"
-    tools:context="com.example.playlist_maker3.media.ui.MediaActivity">
+    tools:context="com.example.playlist_maker3.media.ui.NewPlaylistFragment">
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/left_guideline"
@@ -15,7 +15,6 @@
         android:layout_height="wrap_content"
         android:orientation="vertical"
         app:layout_constraintGuide_begin="@dimen/constraintGuide_16" />
-
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/right_guideline"
         android:layout_width="wrap_content"
@@ -23,15 +22,15 @@
         android:orientation="vertical"
         app:layout_constraintGuide_end="@dimen/constraintGuide_16" />
 
-    <androidx.appcompat.widget.Toolbar
+    <com.google.android.material.appbar.MaterialToolbar
         android:id="@+id/toolbar"
-        style="@style/panelHeaderToolbar"
-        app:title="@string/new_playlist"
-        android:background="?attr/colorSecondary"
-        app:navigationIcon="@drawable/arrow"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"/>
+        app:layout_constraintTop_toTopOf="parent"
+        app:navigationIcon="@drawable/arrow"
+        app:navigationIconTint="?attr/colorPrimaryVariant"
+        app:title="@string/new_playlist" />
 
     <androidx.cardview.widget.CardView
         android:id="@+id/cover_playlist_cardview"

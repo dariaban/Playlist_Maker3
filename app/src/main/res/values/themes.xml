@@ -15,6 +15,7 @@
         <item name="general_icon_color">@color/white</item>
         <item name="bottomSheetDialogTheme">@style/CustomBottomSheetDialog</item>
 
+
         <!-- Status bar color. -->
     </style>
 

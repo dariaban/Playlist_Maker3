@@ -43,5 +43,5 @@ val repositoryModule = module {
     single<FavoriteRepository> {
         FavoriteRepositoryImpl(get(), get())
     }
-    single<PlaylistsRepository> { PlaylistsRepositoryImpl(get(), get()) }
+    single<PlaylistsRepository> { PlaylistsRepositoryImpl(get(), get(), get()) }
 }

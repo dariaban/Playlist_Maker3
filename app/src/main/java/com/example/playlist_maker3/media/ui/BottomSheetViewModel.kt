@@ -1,55 +1,60 @@
 package com.example.playlist_maker3.media.ui
 
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.playlist_maker3.media.domain.BottomSheetState
+import com.example.playlist_maker3.Constants
+import com.example.playlist_maker3.media.domain.PlaylistsState
 import com.example.playlist_maker3.media.domain.db.PlaylistsInteractor
 import com.example.playlist_maker3.media.domain.model.Playlist
 import com.example.playlist_maker3.search.domain.model.Track
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
+import com.example.playlist_maker3.search.utils.debounce
 import kotlinx.coroutines.launch
 
-class BottomSheetViewModel(
-    private val interactor: PlaylistsInteractor,
+class PlaylistsBottomSheetViewModel(
+    private val interactor: PlaylistsInteractor
 ) : ViewModel() {
+    private val playlistsStateLiveData = MutableLiveData<PlaylistsState>()
 
-    private val _contentFlow: MutableStateFlow<BottomSheetState> =
-        MutableStateFlow(BottomSheetState.Empty)
-    val contentFlow: StateFlow<BottomSheetState> = _contentFlow
+    fun observePlaylistsState(): LiveData<PlaylistsState> = playlistsStateLiveData
 
-    init {
-        fillData()
-    }
+    var isClickable = true
 
-    fun onPlaylistClicked(playlist: Playlist, track: Track) {
-        if (interactor.isTrackAlreadyExists(playlist, track)) {
-            _contentFlow.value = BottomSheetState.AddedAlready(playlist)
-        } else {
-            viewModelScope.launch(Dispatchers.IO) {
-                interactor.addTrackToPlaylist(playlist, track)
-                _contentFlow.value = BottomSheetState.AddedNow(playlist)
+    private val playlistClickDebounce =
+        debounce<Boolean>(Constants.CLICK_DEBOUNCE_DELAY_MILLIS, viewModelScope, false) {
+            isClickable = it
+        }
+
+    fun requestPlaylists() {
+        viewModelScope.launch {
+            val playlists = interactor.getPlaylists()
+            if (playlists.isEmpty()) {
+                playlistsStateLiveData.postValue(PlaylistsState.Empty)
+            } else {
+                playlistsStateLiveData.postValue(PlaylistsState.Playlists(playlists))
             }
         }
     }
 
-    private fun fillData() {
-        viewModelScope.launch(Dispatchers.IO) {
-            interactor
-                .getPlaylists()
-                .collect { playlists ->
-                    processResult(playlists)
-                }
+    fun addTrackToPlaylist(track: Track, playlist: Playlist) {
+        viewModelScope.launch {
+            if (interactor.isTrackAlreadyExists(track.trackId, playlist.playlistId)) {
+                playlistsStateLiveData.postValue(
+                    PlaylistsState.AddTrackResult(false, playlistName = playlist.name)
+                )
+            } else {
+                interactor.addTrack(track, playlist.playlistId)
+                playlistsStateLiveData.postValue(
+                    PlaylistsState.AddTrackResult(true, playlistName = playlist.name)
+                )
+            }
         }
     }
 
-    private fun processResult(playlists: List<Playlist>) {
-        if (playlists.isEmpty()) {
-            _contentFlow.value = BottomSheetState.Empty
-        } else {
-            _contentFlow.value = BottomSheetState.Content(playlists)
-        }
+    fun onPlaylistClicked() {
+        isClickable = false
+        playlistClickDebounce(true)
     }
+
 }
-

@@ -33,7 +33,7 @@ class FavoriteRepositoryImpl(
     }
 
     private fun convertFromTrackEntity(track: TrackEntity): Track {
-        return trackDbConvertor.mapToTrack(track)
+        return trackDbConvertor.mapToEntity(track)
     }
 
     private fun convertToTrackEntity(track: Track): TrackEntity {

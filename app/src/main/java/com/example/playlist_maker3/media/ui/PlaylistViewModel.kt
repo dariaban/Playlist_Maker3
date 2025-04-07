@@ -1,46 +1,65 @@
 package com.example.playlist_maker3.media.ui
 
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.playlist_maker3.media.domain.PlaylistsScreenState
+import com.example.playlist_maker3.Constants
+import com.example.playlist_maker3.media.domain.PlaylistState
 import com.example.playlist_maker3.media.domain.db.PlaylistsInteractor
-import com.example.playlist_maker3.media.domain.model.Playlist
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.delay
 
-class PlaylistsViewModel(private val interactor: PlaylistsInteractor) :
-    ViewModel() {
-    private val _contentFlow: MutableStateFlow<PlaylistsScreenState> =
-        MutableStateFlow(PlaylistsScreenState.Empty)
+class PlaylistViewModel(
+    private val playlistsInteractor: PlaylistsInteractor,
+) : ViewModel() {
 
-    val contentFlow: StateFlow<PlaylistsScreenState> = _contentFlow
+    private val stateLiveData = MutableLiveData<PlaylistState>()
+
     var isClickable = true
 
-    init {
-        fillData()
+    fun observeState(): LiveData<PlaylistState> = stateLiveData
+
+    private fun renderState(state: PlaylistState) {
+        stateLiveData.postValue(state)
     }
 
-    private fun fillData() {
-        viewModelScope.launch(Dispatchers.IO) {
-            interactor
-                .getPlaylists()
-                .collect { playlists ->
-                    processResult(playlists)
-                }
+    fun requestPlayListInfo(playlistId: Int) {
+        viewModelScope.launch {
+            renderState(
+                PlaylistState.PlaylistInfo(
+                    playlistsInteractor.getPlaylist(playlistId)
+                )
+            )
+            renderState(
+                PlaylistState.PlaylistTracks(
+                    playlistsInteractor.getPlaylistTracks(playlistId)
+                )
+            )
         }
     }
 
-    private fun processResult(playlists: List<Playlist>) {
-        if (playlists.isEmpty()) {
-            _contentFlow.value = (PlaylistsScreenState.Empty)
-        } else {
-            _contentFlow.value = (PlaylistsScreenState.Content(playlists))
+    fun deleteTrack(trackId: Int, playlistId: Int) {
+        viewModelScope.launch {
+            playlistsInteractor.deleteTrack(trackId, playlistId)
+            renderState(
+                PlaylistState.PlaylistTracks(
+                    playlistsInteractor.getPlaylistTracks(playlistId)
+                )
+            )
         }
     }
 
-    fun onPlaylistClick() {
-        isClickable = false
+    fun clickDebounce(): Boolean {
+        val current = isClickable
+        if (isClickable) {
+            isClickable = false
+            viewModelScope.launch {
+                delay(Constants.CLICK_DEBOUNCE_DELAY_MILLIS)
+                isClickable = true
+            }
+        }
+        return current
     }
+
 }
